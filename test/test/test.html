@@ -1,0 +1,352 @@
+﻿
+
+
+
+
+
+
+
+  	
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>NPP管理系统</title><link rel="stylesheet" href="../../View/resources/css/reset.css" type="text/css" media="screen" /><link rel="stylesheet" href="../../View/resources/css/style.css" type="text/css" media="screen" /><link rel="stylesheet" href="../../View/resources/css/invalid.css" type="text/css" media="screen" />	<script type="text/javascript" src="../../View/resources/scripts/jquery-1.3.2.min.js"></script><script type="text/javascript" src="../../View/resources/scripts/simpla.jquery.configuration.js"></script><script type="text/javascript" src="../../View/resources/scripts/facebox.js"></script><script type="text/javascript" src="../../View/resources/scripts/jquery.wysiwyg.js"></script><script type="text/javascript" src="../../View/resources/scripts/jquery.datePicker.js"></script><script type="text/javascript" src="../../View/resources/scripts/jquery.date.js"></script><style type="text/css"></style></head>
+<script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu1").style.display="block";
+}
+
+</script>
+<script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu1").style.display="block";
+}
+function confirms()
+{
+	document.getElementById("charge_search").submit();
+}
+</script>
+<script language="javascript">
+//按价格排序，对应的操作
+function order_jiage()
+{
+	var jiage = document.getElementById('jiage').innerHTML;
+	document.getElementById('current_click').value="jiage";
+	if(jiage=='价格 ▲')
+	{
+		document.getElementById('jiage').innerHTML='价格 ▼';
+		document.getElementById('jiage_click').value='desc';
+		document.getElementById('currentpage').value=1;
+		document.getElementById('sumpage').value=5;
+		document.getElementById("charge_search").submit();
+	}
+	else if(jiage=='价格 ▼')
+	{
+		document.getElementById('jiage').innerHTML='价格 ▲';
+		document.getElementById('jiage_click').value='asc';
+		document.getElementById('currentpage').value=1;
+		document.getElementById('sumpage').value=5;
+		document.getElementById("charge_search").submit();
+	}
+}
+//按下载量排序，对应的操作
+function order_xiazailiang()
+{
+	var xiazailiang = document.getElementById('xiazailiang').innerHTML;
+	document.getElementById('current_click').value="xiazailiang";
+	if(xiazailiang=='下载量 ▲')
+	{
+		//alert(xiazailiang);
+		document.getElementById('xiazailiang').innerHTML='下载量 ▼';
+		document.getElementById('xiazailiang_click').value='desc';
+		document.getElementById('currentpage').value=1;
+		document.getElementById('sumpage').value=5;
+		document.getElementById("charge_search").submit();
+	}
+	else if(xiazailiang=='下载量 ▼')
+	{
+		//alert(xiazailiang);
+		document.getElementById('xiazailiang').innerHTML='下载量 ▲';
+		document.getElementById('xiazailiang_click').value='asc';
+		document.getElementById('currentpage').value=1;
+		document.getElementById('sumpage').value=5;
+		document.getElementById("charge_search").submit();
+	}
+}	
+</script>		
+<script language="javascript">
+function formsub_prev()
+{
+	document.getElementById('currentpage').value=(1-1);
+	document.getElementById('sumpage').value=5;
+	document.getElementById("charge_search").submit();
+}
+function formsub_next()
+{
+	document.getElementById('currentpage').value=(1+1);
+	document.getElementById('sumpage').value=5;
+	document.getElementById("charge_search").submit();
+}
+function formsub_head()
+{
+	document.getElementById('currentpage').value=1;
+	document.getElementById('sumpage').value=5;
+	document.getElementById("charge_search").submit();
+}
+function formsub_last()
+{
+	document.getElementById('currentpage').value=5;
+	document.getElementById('sumpage').value=5;
+	document.getElementById("charge_search").submit();
+}
+function formsub_jump()
+{
+	var re=/^[0-9]*$/;
+	var pagesjump = document.getElementById('pagejump').value;	
+	if(pagesjump!=null && pagesjump.length>0)
+	{
+		if(re.test(pagesjump))
+		{
+			if(pagesjump<1||pagesjump>5)
+			{
+				alert("跳转请求超出页面范围，请重新输入跳转页面");
+			}
+			else
+			{
+				document.getElementById('currentpage').value=pagesjump;
+				document.getElementById('sumpage').value=5;
+				document.getElementById("charge_search").submit();
+			}
+		}
+		else
+		{
+			alert("您的输入不合法!");
+		}
+	}
+	else
+	{
+		alert("请输入跳转页!");
+	}
+}
+function confirms()
+{
+	document.getElementById("charge_search").submit();
+}
+//更改产品状态
+function change_status(obj)
+{
+	var r=confirm("确认修改此产品的状态？");
+	if (r==true)
+	{
+		var new_status = window.document.getElementById("'"+obj+"'").value;
+		window.location.href="change_status.php?app_id="+obj+"&new_status="+new_status;
+	}
+	else
+	{
+		document.getElementById("charge_search").submit();
+	}
+}
+</script>	
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">admin1,您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			<ul id="main-nav">	<li><a href="#"  class="nav-top-item"><strong>内容管理					</strong></a><ul id="menu1"><li><a href="../app/app_audit.php">新内容审核</a></li><li><a href="../app/app_select_edit.php">新内容查询/修改</a></li></ul></li>	<li><a href="#" class="nav-top-item"><strong>统计分析					</strong></a><ul id="menu5"><li><a href="../charge/charge_select.php">订单查询</a></li></ul> </li><li><a href="#" class="nav-top-item"><strong>用户管理</strong></a><ul id="menu6"><li><a href="../blacklist/blacklist_upload.php">黑名单管理</a></li></ul> </li><li><a href="#" class="nav-top-item"><strong>系统管理</strong></a><ul id="menu7"><li><a href="../system_management/role_management.php">添加管理员</a></li><li><a href="../system_management/authority_management.php">权限管理</a></li><li><a href="../log/admin_log.php">操作日志查询</a></li></ul> </li><li><a href="../login/index.php" class="nav-top-item no-submenu"><strong>退出登录</strong> </a></li></ul>	
+				
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>新内容查询/修改</h3>
+	
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				<div class="content-box-header3" style="height:95px">
+				<br />
+				<form name = "charge_search" id = "charge_search" action="app_select_edit.php" method="post" >
+					
+					 <p>
+					  &nbsp; <input type="checkbox" name="app_id_check" >
+					   <b>内容ID</b>
+					   <input name="app_id" id="app_id" value="">
+					   <input type="checkbox" name="app_key_check" >
+						<b>内容关键字</b>
+						<input name="app_key" id="app_key" value="">
+					   <input type="hidden" name="submit_test" value="yes" />
+					   <input type="hidden" name="jiage_click" id="jiage_click" value="asc" />
+					   <input type="hidden" name="xiazailiang_click" id="xiazailiang_click" value="desc" />
+					   <input type="hidden" name="current_click" id="current_click" value="jiage" />
+					   <input type="hidden" name="currentpage" id="currentpage" value="1" />
+					   <input type="hidden" name="sumpage" id="sumpage" value="" />
+					   		
+			       </p>
+				    <p>
+							&nbsp;<input type="checkbox" name="npp_cp_check" >
+							<b>开发者</b>
+							<select name = "npp_cp" id = "npp_cp">
+							<option value=央广视讯  selected="selected" >央广视讯</option><option value=央广视讯1  >央广视讯1</option>
+							</select>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" name="app_status_check" >
+							<b>内容状态</b>
+							<select name = "app_status" id = "app_status">
+							<option value=1  selected="selected"  >计费待审核</option><option value=2 >计费审核通过</option><option value=3 >驳回</option><option value=4 >暂停收费</option>
+							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span><input type="button" class="button" onclick="javascript:confirms();" value="查询" />
+					     </span>
+					</p>
+				</form>
+				
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header1 -->
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->						
+												<table>					
+							<thead><tr><th><div align="center">内容ID</div></th><th><div align="center">内容名称</div></th><th><div align="center"><span id="jiage"  onclick="javascript:order_jiage();" >价格 ▲</span></div></th><th><div align="center">开发者</div></th><th><div align="center"><span id="xiazailiang"  onclick="javascript:order_xiazailiang();" >下载量 ▼</span></div></th><th colspan="2"><div align="center">内容状态</div></th></tr></thead><tbody><tr><td><div align="center">23</div></td><td><div align="center"><a href = 'app_message.php?id=26'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">65</div></td><td><div align="center">
+							  <select name="'23'" id="'23'" >
+							    <option value=1 >计费待审核</option>
+							    <option value=2 selected >计费审核通过</option>
+							    <option value=3 >驳回</option>
+							    <option value=4 >暂停收费</option>
+						      </select>
+							  </div></td><td><div align="center">
+							    <input type = "button" value="确定" onclick="javascript:change_status('23')" >
+							    </div></td></tr><tr><td><div align="center">2144</div></td><td><div align="center"><a href = 'app_message.php?id=5'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">54</div></td><td><div align="center">
+							      <select name="'2144'" id="'2144'" >
+							        <option value=1 >计费待审核</option>
+							        <option value=2 >计费审核通过</option>
+							        <option value=3 >驳回</option>
+							        <option value=4 selected >暂停收费</option>
+						          </select>
+							      </div></td><td><div align="center">
+							        <input type = "button" value="确定" onclick="javascript:change_status('2144')" >
+							        </div></td></tr><tr><td><div align="center">3432</div></td><td><div align="center"><a href = 'app_message.php?id=38'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">43</div></td><td><div align="center">
+							          <select name="'3432'" id="'3432'" >
+							            <option value=1 >计费待审核</option>
+							            <option value=2 >计费审核通过</option>
+							            <option value=3 selected >驳回</option>
+							            <option value=4 >暂停收费</option>
+						              </select>
+							          </div></td><td><div align="center">
+							            <input type = "button" value="确定" onclick="javascript:change_status('3432')" >
+							            </div></td></tr><tr><td><div align="center">57</div></td><td><div align="center"><a href = 'app_message.php?id=32'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">34</div></td><td><div align="center">
+							              <select name="'57'" id="'57'" >
+							                <option value=1 >计费待审核</option>
+							                <option value=2 >计费审核通过</option>
+							                <option value=3 selected >驳回</option>
+							                <option value=4 >暂停收费</option>
+						                  </select>
+							              </div></td><td><div align="center">
+							                <input type = "button" value="确定" onclick="javascript:change_status('57')" >
+							                </div></td></tr><tr><td><div align="center">34</div></td><td><div align="center"><a href = 'app_message.php?id=16'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">9</div></td><td><div align="center">
+							                  <select name="'34'" id="'34'" >
+							                    <option value=1 selected >计费待审核</option>
+							                    <option value=2 >计费审核通过</option>
+							                    <option value=3 >驳回</option>
+							                    <option value=4 >暂停收费</option>
+						                      </select>
+							                  </div></td><td><div align="center">
+							                    <input type = "button" value="确定" onclick="javascript:change_status('34')" >
+							                    </div></td></tr><tr><td><div align="center">32</div></td><td><div align="center"><a href = 'app_message.php?id=15'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">8</div></td><td><div align="center">
+							                      <select name="'32'" id="'32'" >
+							                        <option value=1 >计费待审核</option>
+							                        <option value=2 >计费审核通过</option>
+							                        <option value=3 >驳回</option>
+							                        <option value=4 selected >暂停收费</option>
+						                          </select>
+							                      </div></td><td><div align="center">
+							                        <input type = "button" value="确定" onclick="javascript:change_status('32')" >
+							                        </div></td></tr><tr><td><div align="center">435</div></td><td><div align="center"><a href = 'app_message.php?id=14'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">7</div></td><td><div align="center">
+							                          <select name="'435'" id="'435'" >
+							                            <option value=1 >计费待审核</option>
+							                            <option value=2 >计费审核通过</option>
+							                            <option value=3 >驳回</option>
+							                            <option value=4 selected >暂停收费</option>
+						                              </select>
+							                          </div></td><td><div align="center">
+							                            <input type = "button" value="确定" onclick="javascript:change_status('435')" >
+							                            </div></td></tr><tr><td><div align="center">7</div></td><td><div align="center"><a href = 'app_message.php?id=13'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">6</div></td><td><div align="center">
+							                              <select name="'7'" id="'7'" >
+							                                <option value=1 >计费待审核</option>
+							                                <option value=2 selected >计费审核通过</option>
+							                                <option value=3 >驳回</option>
+							                                <option value=4 >暂停收费</option>
+						                                  </select>
+							                              </div></td><td><div align="center">
+							                                <input type = "button" value="确定" onclick="javascript:change_status('7')" >
+							                                </div></td></tr><tr><td><div align="center">44</div></td><td><div align="center"><a href = 'app_message.php?id=18'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">6</div></td><td><div align="center">
+							                                  <select name="'44'" id="'44'" >
+							                                    <option value=1 >计费待审核</option>
+							                                    <option value=2 >计费审核通过</option>
+							                                    <option value=3 >驳回</option>
+							                                    <option value=4 selected >暂停收费</option>
+						                                      </select>
+							                                  </div></td><td><div align="center">
+							                                    <input type = "button" value="确定" onclick="javascript:change_status('44')" >
+							                                    </div></td></tr><tr><td><div align="center">8987</div></td><td><div align="center"><a href = 'app_message.php?id=35'>俏脸短信</a></div></td><td><div align="center">1</div></td><td><div align="center">央广视讯</div></td><td><div align="center">6</div></td><td><div align="center">
+							                                      <select name="'8987'" id="'8987'" >
+							                                        <option value=1 selected >计费待审核</option>
+							                                        <option value=2 >计费审核通过</option>
+							                                        <option value=3 >驳回</option>
+							                                        <option value=4 >暂停收费</option>
+						                                          </select>
+							                                      </div></td><td><div align="center">
+							                                        <input type = "button" value="确定" onclick="javascript:change_status('8987')" >
+							                                        </div></td></tr></tbody>
+							<tfoot>
+								<tr>
+									<td colspan="11">
+										<div class="pagination" >
+											<span>共41条记录</span>
+																						<span>首页</span>
+																																	<a>/</a>
+																																														<span><a href="javascript:formsub_next();">下一页</a></span>
+																																		<span>转到第<input name = "pagejump" id = "pagejump" style="width:40px;">页</span>
+											<span><input type="button" value="跳转" class=="button" onClick="javascript:formsub_jump();"></span>
+																						<span>1/5页</span>																					</div>
+									<div class="clear"></div>									</td>
+								</tr>
+							</tfoot>
+						</table>
+												
+					</div> <!-- End #tab1 -->					    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+			<div id="footer"><small>快速访问 - <a href="http://www.nokia.com.cn" title="First Page" class="STYLE1">NOKIA主页</a> | <a href="http://store.ovi.com/" title="First Page" class="STYLE1">NOKIA商店</a> | <a href="https://publish.ovi.com/login" title="First Page" class="STYLE1">P2OVI</a></small></div>
+			
+		</div> <!-- End #main-content -->
+	
+</div>
+</body>
+</html>

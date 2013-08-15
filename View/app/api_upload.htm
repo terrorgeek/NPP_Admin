@@ -1,0 +1,80 @@
+{#$header#}
+<script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu6").style.display="block";
+}
+
+</script>
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+			
+			
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>API上传</h3>
+					
+					
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->
+						
+						
+						{#$page_out#}
+						
+					</div> <!-- End #tab1 -->	
+					<form action="upload_file.php" method="post"enctype="multipart/form-data">
+					<label for="file">导入黑名单:</label>
+					<input type="file" name="upfile" id="upfile" /> <p><font size = "2">类型限制：CSV&nbsp;&nbsp;&nbsp;文件名限制：yy+mm+dd+2位任意数字，例如："2011051501.csv" &nbsp;&nbsp;&nbsp;大小限制：1MB</font></p>
+					<br>
+					<input type="submit" class="button" name="submit" value="确定" />
+					</form>				    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+           {#$footer#}
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>

@@ -1,0 +1,637 @@
+{#$header#}
+<script type="text/javascript" src="../../View/resources/scripts/ajax.js"></script>
+<script type="text/javascript" src="../../View/resources/scripts/addOption.js"></script>
+<script type="text/javascript" src="../../View/js/jquery.js"></script>
+<script language="javascript">
+//这个变量是4个列排序的标识，用来识别是正序还是倒序排列
+var sort_flag=true;
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu1").style.display="block";
+	//document.getElementById("charge_search").submit();
+}
+
+function deleteit() {
+	var obj = document.getElementsByName("pay_type");
+	var str = "";
+	for(var i = 0 ; i<obj.length; i++) {
+		if(obj[i].checked == true) {
+			str += "'"+obj[i].id+"'";
+			if(i!= obj.length - 1) {
+				str += ",";
+			}
+		}
+	}
+	if(str == "") alert("请选择删除项！");
+	else {
+		var app_id = document.getElementById("app_id").value;
+		window.location.href = "delete_payment_detail.php?ids="+str+"&app_id="+app_id;
+	}
+}
+
+function addit() {
+	window.open('add_payment_detail.php', 'blank', 'height=220, width=400');
+}
+
+function getSingleValue(obj) {
+	for(var i = 0 ; i<obj.length; i++) {
+		if(obj[i].checked == true) {
+			return obj[i];
+		}
+	}
+}
+
+
+function redirect(selobj) {
+	var channel_id = selobj.options[selobj.options.selectedIndex].value;
+	loadtype(channel_id);
+	//loadsource(channel_id);
+}
+
+function imei_sub() {
+	var app_id = document.getElementById("app_id").value;
+	var rate = document.getElementById("rate").value;
+	var support = document.getElementById("support").options[document.getElementById("support").options.selectedIndex].text;
+	var kind = document.getElementById("kind").options[document.getElementById("kind").options.selectedIndex].text;
+	alert(cpid+"-"+rate+"-"+support+"-"+kind);
+	window.location.href = "add_payment_detail.php?app_id="+app_id+"&support="+support+"&kind="+kind+"&rate="+rate;
+}
+
+function modifyit(id ,tname ,sname) {
+	loadwindow(350, 250);
+	var index = 0;
+	for(var i = 0 ; i<document.getElementById("m_channel_name").length ; i++) {
+		if(document.getElementById("m_channel_name").options[i].value == id) {
+			index = i;
+			break;
+		}
+	}
+	document.getElementById("m_channel_name").options[index].selected = true;
+	checktype(id , tname , sname);
+}
+
+function hidDiv(dname){
+	var temp = document.getElementById(dname);
+		temp.style.display = "none";
+		mybg.style.display = "none";
+}
+</script>
+
+<script>
+var dragapproved=false
+var minrestore=0  //该变量表示窗口目前的状态，0表示初始化状态，1表示最大化状态
+var initialwidth,initialheight
+//若Client浏览器为IE5.0以上版本的
+var ie5=document.all&&document.getElementById
+//若Client浏览器为NetsCape6。0版本以上的
+var ns6=document.getElementById&&!document.all
+function loadwindow(width,height)
+{		
+		var sWidth,sHeight;
+		sWidth=document.body.offsetWidth;//浏览器工作区域内页面宽度
+		sHeight=screen.height;//屏幕高度（垂直分辨率）
+		ssWidth=sWidth*0.4;
+		ssHeight=sHeight*0.2;	
+		myAlert = document.getElementById("edit");
+		myAlert.style.display="block";
+		myAlert.style.width=initialwidth=width+"px";
+		myAlert.style.height=initialheight=height+"px";
+		myAlert.style.left=ssWidth+"px";
+		myAlert.style.top=ns6? window.pageYOffset*1+ssHeight+"px" : iecompattest().scrollTop*1+ssHeight+"px";
+		myAlert.style.zIndex = "1000";	
+		
+		mybg = document.createElement("div");
+		mybg.setAttribute("id","mybg");
+		mybg.style.background = "#000";
+		mybg.style.width = "100%";
+		mybg.style.height = "100%";
+		mybg.style.position = "fixed";
+		mybg.style.top = "0";
+		mybg.style.left = "0";
+		mybg.style.zIndex = "500";
+		mybg.style.opacity = "0.3";
+		mybg.style.filter = "Alpha(opacity=30)";
+		document.body.appendChild(mybg);
+		//document.body.style.overflow = "hidden";
+	//}
+}
+function trim(str){
+return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+function loadwindow2(width,height,paymentmethod_id)
+{
+		var sWidth,sHeight;
+		sWidth=document.body.offsetWidth;//浏览器工作区域内页面宽度
+		sHeight=screen.height;//屏幕高度（垂直分辨率）
+		ssWidth=sWidth*0.4;
+		ssHeight=sHeight*0.2;	
+		myAlert = document.getElementById("imei");
+		myAlert.style.display="block";
+		myAlert.style.width=initialwidth=width+"px";
+		myAlert.style.height=initialheight=height+"px";
+		myAlert.style.left=ssWidth+"px";
+		myAlert.style.top=ns6? window.pageYOffset*1+ssHeight+"px" : iecompattest().scrollTop*1+ssHeight+"px";
+		myAlert.style.zIndex = "1000";	
+		
+		mybg = document.createElement("div");
+		mybg.setAttribute("id","mybg");
+		mybg.style.background = "#000";
+		mybg.style.width = "100%";
+		mybg.style.height = "100%";
+		mybg.style.position = "fixed";
+		mybg.style.top = "0";
+		mybg.style.left = "0";
+		mybg.style.zIndex = "500";
+		mybg.style.opacity = "0.3";
+		mybg.style.filter = "Alpha(opacity=30)";
+		document.body.appendChild(mybg);
+		//这里要向PHP页面发送AJAX请求，将取到的值赋到大窗体上
+		$.ajax({
+		    data:"paymentmethod_id="+paymentmethod_id+"&app_id="+{#$app_id#},
+		    url:"pop_paymentmethod_details.php",
+		    type:"post",
+		    dataType:"text",
+		    success:function(data)
+		    {
+		    	var payment_details_array=new Array();
+			    payment_details_array=data.split(",");
+			    document.getElementById("channel_name").value=trim(payment_details_array[0]);
+			    //赋值给支付类型下拉框
+			    var obj_type=document.getElementById("kind");
+			    for(var i=0;i<obj_type.length;i++)
+			    {
+			    	if(obj_type.options[i].text==payment_details_array[1])
+			    	{
+			    		obj_type.options[i].selected=true;
+			    	}
+			    }
+			    //赋值给支付来源下拉框
+			    var obj_source=document.getElementById("support");
+			    for(var i=0;i<obj_source.length;i++)
+			    {
+			    	if(obj_source.options[i].text==payment_details_array[3])
+			    	{
+			    		obj_source.options[i].selected=true;
+			    	}
+			    }
+			    document.getElementById("paymentmethod_name").value=payment_details_array[2];  
+			    document.getElementById("max_amount").value=payment_details_array[4];
+			    document.getElementById("min_amount").value=payment_details_array[5]; 
+			    document.getElementById("net").value=payment_details_array[6];
+			    document.getElementById("net_bad_rate").value=payment_details_array[7]; 
+			    document.getElementById("nokia_rate").value=payment_details_array[8];
+			    document.getElementById("payment_rate").value=payment_details_array[9];
+			    document.getElementById("apper_rate").value=payment_details_array[10];
+			    document.getElementById("status").value=payment_details_array[11];
+			    document.getElementById("others").value=payment_details_array[12];      
+		    }
+		});
+}
+function iecompattest()
+{
+	return (!window.opera && document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+//这个是检查用户输入权重最大值的函数
+//这个是比较函数
+function sortNumber(a, b)
+{
+    return a - b
+}
+//检验用户输入的最大值是否比显示出的列数大
+function check_max_weight()
+{
+	var max_check_array=new Array();
+	//检查有多少被checked了
+	var checked_count=0;
+	for(var i=1;i<={#$count#};i++)
+	{
+		max_check_array[i-1]=document.getElementById(i).value;
+		if(document.getElementById(i+"_checkbox").checked)
+		{
+			checked_count++;
+		}
+	}
+	var answer_array=new Array()
+	answer_array=max_check_array.sort(sortNumber);
+	if(answer_array[answer_array.length-1]>checked_count)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+//这个是检查用户是否输入有0
+function check_zero()
+{
+	for(var i=1;i<={#$count#};i++)
+	{
+		if(document.getElementById(i).value=="0")
+		{
+			return false;
+		}
+	}
+}
+//这个是全选的checkbox
+function select_all()
+{
+	if(document.getElementById("sort_checkbox").checked==true)
+	{
+	   for(var i=1;i<={#$count#};i++)
+	   {
+		   document.getElementById(i+"_checkbox").checked=true;
+		   alert(document.getElementById(i+"_checkbox").id);
+	   }
+	}
+	else
+	{
+		for(var i=1;i<={#$count#};i++)
+	    {
+		   document.getElementById(i+"_checkbox").checked=false;
+	    }
+	}
+}
+//这个是检查时否有重复的输入
+function check_repeat()
+{
+	//先把所有值装进一个数组
+	var repeat_array=new Array();
+	var flag=0;
+	var index=0;
+	for(var i=1;i<={#$count#};i++)
+	{
+		if(document.getElementById(i).value!="")
+		{
+			repeat_array[index]=document.getElementById(i).value;
+			index++;
+		}
+	}
+	for(var i=0;i<repeat_array.length;i++)
+	{
+		for(var j=0;j<repeat_array.length;j++)
+		{
+			if(repeat_array[i]==repeat_array[j])
+			{
+				flag++;
+			}
+			if(flag>1)
+			{
+				return false;
+			}
+		}
+		flag=0;
+	}
+}
+function sort_paymentmethod()
+{
+	//这是所有的text域的总数
+	var tr_length=0;
+	//这是拼接参数的变量
+	var total_var="";
+	for(i={#$count#};i>0;i--)
+	{
+		var checkbox=document.getElementById(i+"_checkbox");
+		var check_text=document.getElementById(i);
+		if(checkbox.checked)
+		{
+			if(check_text.value.length!="")
+			{
+				//检查一下是否有0
+				if(check_zero()==false)
+				{
+					alert("权重不能等于0!");
+					return;
+				}
+				//这里验证一下是否为数字
+				if(!check_text.value.match(/^[0-9]+$/))
+				{
+					alert("权重必须为正整数!");
+					return;
+				}
+				if(check_repeat()==false)
+				{
+					alert("权重不能重复!");
+					return;
+				}
+				var the_max_value=check_max_weight();
+				if(the_max_value==false)
+				{
+					alert("权重不能大于现有记录数!");
+					return;
+				}
+				//checkbox_value为checkbox复选框的值,即键为paymentmethod的id,值为最右边text的值,也即checkbox.value
+			    var checkbox_value=checkbox.value;
+			    total_var+="&"+checkbox_value+"="+check_text.value;
+			}
+			else
+			{
+				alert("必须输入权重!");
+				return;
+			}	
+		}
+	}
+	total_var+="&app_id="+{#$app_id#};
+	total_var=total_var.substring(1,total_var.length);
+			$.ajax({
+				data:total_var,
+				url:"update_payment_sort.php",
+				type:"post",
+				dataType:"text",
+				success:function(data)
+				{
+					alert("修改成功!");
+					window.history.go(-1);
+				}
+			});
+}
+//专门检验箭头的函数
+function check_arrow(sort_var)
+{
+	if(sort_var=="channel")
+	{
+		$("#channel_head").html("支付渠道▼");
+		$("#paymentmethod_head").html("支付类型▲");
+		$("#p_name_head").html("支付类型名称▲");
+		$("#source_head").html("支付来源▲");
+	}
+	else if(sort_var=="paymentmethod")
+	{
+		$("#channel_head").html("支付渠道▲");
+		$("#paymentmethod_head").html("支付类型▼");
+		$("#p_name_head").html("支付类型名称▲");
+		$("#source_head").html("支付来源▲");
+	}
+	else if(sort_var=="p_name")
+	{
+		$("#channel_head").html("支付渠道▲");
+		$("#paymentmethod_head").html("支付类型▲");
+		$("#p_name_head").html("支付类型名称▼");
+		$("#source_head").html("支付来源▲");
+	}
+	else if(sort_var=="source")
+	{
+		$("#channel_head").html("支付渠道▲");
+		$("#paymentmethod_head").html("支付类型▲");
+		$("#p_name_head").html("支付类型名称▲");
+		$("#source_head").html("支付来源▼");
+	}
+}
+
+function sort(sort_var)
+{
+	if(sort_var=="channel")
+	{
+		if(sort_flag==true)
+		{
+			sort_by_name("channel","ASC");
+			sort_flag=false;
+		}
+		else
+		{
+			sort_by_name("channel","DESC");
+			sort_flag=true;
+		}
+		check_arrow("channel");
+	}
+	if(sort_var=="paymentmethod")
+	{
+		if(sort_flag==true)
+		{
+			sort_by_name("paymentmethod","ASC");
+			sort_flag=false;
+		}
+		else
+		{
+			sort_by_name("paymentmethod","DESC");
+			sort_flag=true;
+		}
+		check_arrow("paymentmethod");
+	}
+	if(sort_var=="p_name")
+	{
+		if(sort_flag==true)
+		{
+			sort_by_name("p_name","ASC");
+			sort_flag=false;
+		}
+		else
+		{
+			sort_by_name("p_name","DESC");
+			sort_flag=true;
+		}
+		check_arrow("p_name");
+	}
+	if(sort_var=="source")
+	{
+		if(sort_flag==true)
+		{
+			sort_by_name("source","ASC");
+			sort_flag=false;
+		}
+		else
+		{
+			sort_by_name("source","DESC");
+			sort_flag=true;
+		}		
+		check_arrow("source");
+	}
+}
+//这个函数是真正用来排序的
+function sort_by_name(sort_var,sort_method)
+{
+	$.ajax({
+		//这里的app_id_sort要和上面的app_id区分开，所以叫app_id_sort
+		data:"sort_var="+sort_var+"&app_id_sort="+{#$app_id#}+"&sort_method="+sort_method,
+		url:"update_payment_sort.php",
+		type:"post",
+		dataType:"text",
+		success:function(data)
+		{
+			$("#my_sort_list").html("");
+			$("#my_sort_list").html(data);
+		}
+	});
+}
+</script>
+
+	
+	<body>
+	<input type="hidden" value="{#$app_id#}" id="app_id" />
+	<div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+				
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>{#$title#}</h3>
+	
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+					
+
+				<div class="content-box-content">
+					
+				<div id="imei" style="position:absolute;background-color: #EBEBEB;cursor:hand;left:600px;top:200px;height:240px;width:350px;display:none; margin:auto;" onSelectStart="return false" src="javascript:false" >
+					<div style="position:absolute;left:0px;top:10px;">
+						<table>
+							<tr>
+								<td>支付渠道</td>
+								<td><input type="text" id="channel_name" name="channel_name" disabled="disabled" /></td>
+							</tr>
+							<tr>
+								<td>支付类型</td>
+								<td>
+									<select name = "kind" id = "kind" disabled="disabled">
+										{#$drop_type#}
+									</select> 
+								</td>
+							</tr>
+							<tr>
+								<td>支付类型名称</td>
+								<td>
+									<input type="text" name = "paymentmethod_name" id = "paymentmethod_name" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>支付来源</td>
+								<td>
+									<select name = "support" id = "support" disabled="disabled">
+									{#$drop_source#}
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>最大金额</td>
+								<td>
+									<input type="text" name = "max_amount" id = "max_amount" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>最小金额</td>
+								<td>
+									<input type="text" name = "min_amount" id = "min_amount" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>支付网关代收</td>
+								<td>
+									<input type="text" name = "net" id = "net" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>支付网关坏账率</td>
+								<td>
+									<input type="text" name = "net_bad_rate" id = "net_bad_rate" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>诺基亚税率</td>
+								<td>
+									<input type="text" name = "nokia_rate" id = "nokia_rate" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>支付渠道税率</td>
+								<td>
+									<input type="text" name = "payment_rate" id = "payment_rate" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>内容提供商分成比例</td>
+								<td>
+									<input type="text" id="apper_rate" name="apper_rate" size="10" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>状态</td>
+								<td>
+									<input type="text" id="status" name="status" size="10" disabled="disabled" />
+								</td>
+							</tr>
+							<tr>
+								<td>其它</td>
+								<td>
+									<textarea cols="30" rows="5" disabled="disabled"></textarea>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<!-- <div style="position:absolute;left:90px;top:500px;"> 
+						<input id="imeibutton" type="button" onClick="javascript:imei_sub()" value="确定"/>
+					</div> -->   
+					<div style="position:absolute;left:210px;top:700px;">  
+						<input class="button" id="imeibutton2" type="button" onClick="javascript:hidDiv('imei')" value="返回" />
+					</div> 
+				</div>
+					
+					<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab 	-->					
+						<table>
+							<thead>
+								<tr>
+									<th><input type="checkbox" id="sort_checkbox" name="sort_checkbox" onchange="select_all();return false;" /></th>
+									<th id="channel_head" onclick="sort('channel')">支付渠道▲</th>
+									<th id="paymentmethod_head" onclick="sort('paymentmethod')">支付类型▲</th>
+									<th id="p_name_head" onclick="sort('p_name')">支付类型名称▲</th>
+									<th id="source_head" onclick="sort('source')">支付来源▲</th>
+									<th></th>
+									<th>排序</th>
+								</tr>
+							</thead>					
+							<tbody id="my_sort_list">{#$tablelist#}</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5" align="center">
+										<div style="width:245;" align="center" >
+										<!--	<a href="javascript:void(0);" onclick="loadwindow2(350, 240);">新增</a> -->
+										</div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					<center><input class="button" type="button" value="确定" onclick="sort_paymentmethod()" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input class="button" type="button" value="取消"  onclick="window.history.go(-1)" />
+						</center>
+					</div> <!-- End #tab1 -->					    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+			{#$footer#}
+			
+		</div> <!-- End #main-content -->
+	
+</div>

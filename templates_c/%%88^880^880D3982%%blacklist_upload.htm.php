@@ -1,0 +1,113 @@
+<?php /* Smarty version 2.6.24, created on 
+         compiled from blacklist/blacklist_upload.htm */ ?>
+<?php echo $this->_tpl_vars['header']; ?>
+
+<script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu6").style.display="block";
+}
+
+function check()
+{
+	//  获取文件后缀名
+	 var   len   =   document.getElementById("upfile").value.length; 
+     var   str   =   document.getElementById("upfile").value; 
+     var  suffix =   str.substr(str.lastIndexOf("."),len); 
+	 suffix = suffix.toLowerCase()
+	 if(suffix==".csv")
+	   {
+	     var file_check='1';
+	   }
+	   
+	   if(len!="0")
+			{
+		     if(file_check=='1')
+			 {
+	           document.getElementById("blacklist").submit();
+	         } else
+			 {
+			  alert("文件格式不对！");
+			 }
+			 }else
+			 {
+			  alert("请选择文件！");
+			 }
+}
+</script>
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links"><?php echo $this->_tpl_vars['username']; ?>
+,您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			<?php echo $this->_tpl_vars['sidebar']; ?>
+
+			
+			
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>黑名单管理</h3>
+					
+					
+					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->
+						
+						
+						<?php echo $this->_tpl_vars['page_out']; ?>
+
+						
+					</div> <!-- End #tab1 -->	
+					<form name="blacklist" id="blacklist" action="upload_file.php" method="post"enctype="multipart/form-data">
+					<label for="file">导入黑名单:</label>
+					<input type="file" name="upfile" id="upfile" /> <p><font size = "2">类型限制：CSV&nbsp;&nbsp;&nbsp;文件名限制：文件名仅限字母或数字，或字母与数字的组合，3~10个字符，例如："abc123.csv" &nbsp;&nbsp;&nbsp;大小限制：1MB</font></p>
+					<br>
+					<input type="button" class="button"  value="确定" onclick="javascript:check();" />
+					</form>				    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+           <?php echo $this->_tpl_vars['footer']; ?>
+
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>

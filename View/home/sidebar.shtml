@@ -1,0 +1,128 @@
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			<ul id="main-nav">  <!-- Accordion Menu -->
+				
+						
+				<li>
+					<a href="#" class="nav-top-item"><strong>
+						产品管理					</strong></a>
+					<ul>
+						<li><a href="#">新产品审核</a></li>
+						<li><a href="#">新产品查询/修改</a></li>
+					</ul>
+			  </li>
+				
+				<li>
+					<a href="#" class="nav-top-item"><strong>
+						价格管理					</strong></a>
+					<ul>
+						<li><a href="#">aaaa</a></li>
+						<li><a href="#">bbbb</a></li>
+						<li><a href="#">cccc</a></li>
+						<li><a href="#">dddd</a></li>
+					</ul>
+			  </li>
+				<li>
+					<a href="#" class="nav-top-item"><strong>
+						结算管理					</strong></a>
+					<ul>
+						<li><a href="#">结算设置</a></li>
+						<li><a href="#">结算查询</a></li>
+						<li><a href="#">下载对账文件</a></li>						
+					</ul>
+			  </li>
+				<li>
+					<a href="#" class="nav-top-item"><strong>
+						合作方管理					</strong></a>
+					<ul>
+						<li><a class="current" href="#">aaaa</a></li>
+						<li><a href="#">bbbb</a></li>						
+					</ul>
+			  </li>
+				<li>
+					<a href="#" class="nav-top-item"><strong>
+						统计分析					</strong></a>
+					<ul>
+						<li><a href="#">订单查询</a></li>
+					</ul>
+			  </li>
+				<li>
+					<a href="#" class="nav-top-item"><strong>
+						用户管理</strong></a>
+					<ul>
+						<li><a href="#">黑名单管理</a></li>
+					</ul>
+			  </li>
+				
+				<li>
+					<a href="#" class="nav-top-item"><strong>
+						系统管理</strong></a>
+					<ul>
+						<li><a href="#">添加管理员</a></li>
+						<li><a href="../system_management/role_management.php">权限管理</a></li>
+						<li><a href="#">操作日志查询</a></li>
+					</ul>
+			  </li>
+				<li>
+					<a href="login.html" class="nav-top-item no-submenu"> <!-- Add the class "no-submenu" to menu items with no sub menu -->
+					<strong>退出登录</strong> </a>				</li>	      
+				
+			</ul> <!-- End #main-nav -->
+			
+			<div id="messages" style="display: none"> <!-- Messages are shown when a link with these attributes are clicked: href="#messages" rel="modal"  -->
+				
+				<h3>3 Messages</h3>
+			 
+				<p>
+					<strong>17th May 2009</strong> by Admin<br />
+					2011-05-26 00:00:00 sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue.
+					<small><a href="#" class="remove-link" title="Remove message">Remove</a></small>
+				</p>
+			 
+				<p>
+					<strong>2nd May 2009</strong> by Jane Doe<br />
+					Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.
+					<small><a href="#" class="remove-link" title="Remove message">Remove</a></small>
+				</p>
+			 
+				<p>
+					<strong>25th April 2009</strong> by Admin<br />
+					2011-05-26 00:00:00 sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue.
+					<small><a href="#" class="remove-link" title="Remove message">Remove</a></small>
+				</p>
+				
+				<form action="#" method="post">
+					
+					<h4>New Message</h4>
+					
+					<fieldset>
+						<textarea class="textarea" name="textfield" cols="79" rows="5"></textarea>
+					</fieldset>
+					
+					<fieldset>
+					
+						<select name="dropdown" class="small-input">
+							<option value="option1">Send to...</option>
+							<option value="option2">Everyone</option>
+							<option value="option3">Admin</option>
+							<option value="option4">Jane Doe</option>
+						</select>
+						
+						<input class="button" type="submit" value="Send" />
+						
+					</fieldset>
+					
+				</form>
+				
+			</div> <!-- End #messages -->
+			
+		</div></div> <!-- End #sidebar -->

@@ -1,0 +1,631 @@
+<?php /* Smarty version 2.6.24, created on 
+         compiled from app/app_audit.htm */ ?>
+<?php echo $this->_tpl_vars['header']; ?>
+
+<script src="../../View/resources/scripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+<script src="../../View/resources/scripts/jquery.autocomplete.js" type="text/javascript"></script>
+<script src="../../View/resources/scripts/jquery.bgiframe.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="../../View/resources/css/jquery.autocomplete.css" />
+<script language="javascript">
+$(document).ready(function(){
+	$("#for_all_buttons td div input").each(function(){
+		$(this).css("width","100px");
+	});
+});
+window.onload=Auto;
+function Auto()
+{
+	document.getElementById("menu1").style.display="block";
+}
+</script>
+<script language="javascript">
+function check_sign(app_id)
+{
+	$.ajax({
+		data:"app_id="+app_id,
+		url:"check_sign.php",
+		type:"post",
+		dataType:"text",
+		success:function(msg){
+			alert(msg);
+			if(msg=="yes")
+			{
+				alert(msg);
+			}
+			if(msg=="no")
+			{
+				alert("IMEI号或者签名为空,不能通过!");
+				return;
+			}
+			if(msg=="error")
+			{
+				alert("参数传递错误!");
+				return;
+			}
+		}
+	});
+}
+function pass(app_id,id)
+{
+	//check_sign(app_id);
+	var r=confirm("确认该内容通过审核？");
+	
+	if (r==true)
+	{
+		window.location.href="pass.php?app_id="+app_id+"&time=<?php echo $this->_tpl_vars['time']; ?>
+";
+	}
+	else
+	{
+		return false;
+	} 
+}
+function showDiv(app_id,currentpage){
+	app_ids = app_id;
+	currentpage=currentpage;
+	loadwindow2(300,150);
+	//var temp = document.getElementById('imei');
+	//if(temp.style.display == "none") temp.style.display = "";
+	//else temp.style.display="none";
+}
+
+function hidDiv(){
+	var temp = document.getElementById('imei');
+		mybg.style.display = "none";
+		temp.style.display = "none";
+		document.getElementById("imeitext").value="";
+}
+function download(id,page)
+{
+	window.location.href="app_audit.php?id="+id+"&time=<?php echo $this->_tpl_vars['time']; ?>
+&currentpage="+page;
+}
+function download1(id,page)
+{
+	window.location.href="app_audit.php?id="+id+"&time=<?php echo $this->_tpl_vars['time']; ?>
+&currentpage="+page+"&jar=yes";
+}
+function imei_sub()
+{
+	imei = document.getElementById('imeitext').value;
+	var check = /^\d{15}$/;
+	if(check.test(imei))
+	{
+		document.getElementById('imeibutton').disabled = 'disabled';
+		document.getElementById('imeibutton').value = '已经提交';
+		document.getElementById('imeibutton2').disabled = 'disabled';
+		setTimeout(imei_sub1,1000);
+	}
+	else
+	{
+		alert("IMEI号输入不合法，请重新输入!");
+	}		
+}
+
+function imei_sub1()
+{
+	window.location.href="app_audit.php?imei="+imei+"&app_id="+app_ids+"&time=<?php echo $this->_tpl_vars['time']; ?>
+&currentpage=<?php echo $this->_tpl_vars['currentpage']; ?>
+";
+}
+
+function imei_input()
+{
+	document.getElementById('imeitext').value = '';
+}
+//鼠标点击，显示或隐藏textarea框
+</script>
+<script language="javascript">
+function formsub_prev()
+{
+	document.getElementById('currentpage').value=(<?php echo $this->_tpl_vars['currentpage']; ?>
+-1);
+	document.getElementById('sumpage').value=<?php echo $this->_tpl_vars['sumpage']; ?>
+;
+	document.getElementById("app").submit();
+}
+function formsub_next()
+{
+	document.getElementById('currentpage').value=(<?php echo $this->_tpl_vars['currentpage']; ?>
++1);
+	document.getElementById('sumpage').value=<?php echo $this->_tpl_vars['sumpage']; ?>
+;
+	document.getElementById('time').value=<?php echo $this->_tpl_vars['time']; ?>
+;
+	document.getElementById("app").submit();
+}
+function formsub_head()
+{
+	document.getElementById('currentpage').value=1;
+	document.getElementById('sumpage').value=<?php echo $this->_tpl_vars['sumpage']; ?>
+;
+	document.getElementById("app").submit();
+}
+function formsub_last()
+{
+	document.getElementById('currentpage').value=<?php echo $this->_tpl_vars['sumpage']; ?>
+;
+	document.getElementById('sumpage').value=<?php echo $this->_tpl_vars['sumpage']; ?>
+;
+	document.getElementById("app").submit();
+}
+function formsub_jump()
+{
+	var re=/^[0-9]*$/;
+	var pagesjump = document.getElementById('pagejump').value;	
+	if(pagesjump!=null && pagesjump.length>0)
+	{
+		if(re.test(pagesjump))
+		{
+			if(pagesjump<1||pagesjump><?php echo $this->_tpl_vars['sumpage']; ?>
+)
+			{
+				alert("跳转请求超出页面范围，请重新输入跳转页面");
+			}
+			else
+			{
+				document.getElementById('currentpage').value=pagesjump;
+				document.getElementById('sumpage').value=<?php echo $this->_tpl_vars['sumpage']; ?>
+;
+				location.href = "<?php echo $this->_tpl_vars['nowpage']; ?>
+"+"&currentpage="+pagesjump;
+			}
+		}
+		else
+		{
+			alert("您的输入不合法!");
+		}
+	}
+	else
+	{
+		alert("请输入跳转页!");
+	}
+}
+
+</script>		
+<script language="javascript">
+function confirms()
+{
+	var time ='';
+	time = document.getElementById("time").value;
+	var url='app_audit.php?time='+time+'&currentpage=1&number=0.29387723984';
+	location.href = url;
+}
+function reject(app_id,id)
+{
+ 	app_ids = app_id;
+	ids = id;
+	loadwindow(340,(<?php echo $this->_tpl_vars['heights']; ?>
++165));
+}
+function imei(app_id,id)
+{
+ 	app_ids = app_id;
+	ids = id;
+	loadwindow(340,165);
+}
+function textdis(_e)
+{
+	if( _e.checked)
+	{  
+		document.getElementById("tex1").style.display = "";
+		document.getElementById("textarea1").style.display = "";
+		document.getElementById("texrcontent").style.display = "";
+	}
+	else
+	{
+		document.getElementById("tex1").style.display="none";
+		document.getElementById("textarea1").style.display="none";
+		document.getElementById("texrcontent").style.display="none";
+	}
+}
+function validates(_i)
+{
+	//alert(_i);
+	var reg_message="";
+    var k;
+	var temp=new Array();
+	for(k=1; k<=_i; k++)
+	{
+		temp[k] = document.getElementById("c"+k);
+	}
+	for(l=1; l<=_i; l++)
+	{
+		if(temp[l].checked)
+		{
+			reg_message+=temp[l].value+",";
+		}
+	}
+	if(temp[_i].checked)
+	{
+
+		text1 = document.getElementById("textarea1");
+		if(text1.value.length>20)
+		{
+			document.getElementById('texrcontent').innerHTML='<font size="2" color="red">字符过长，限20个字符</font>';
+		}
+		if(text1.value=="")
+		{
+			document.getElementById('texrcontent').innerHTML='<font size="2" color="red">请填写驳回原因！</font>';
+		}
+		if(text1.value!=""&&text1.value.length<=20)
+		{
+			reg_message+= document.getElementById("textarea1").value+",";
+			//alert(reg_message);
+			document.getElementById("dwindow").style.display="none";
+			var re=confirm("确认驳回该应用的上架请求？");
+			if (re==true)
+			{
+				//alert(reg_message);
+				window.location.href="reject.php?app_id="+app_ids+"&reject_mess="+reg_message+"&time=<?php echo $this->_tpl_vars['time']; ?>
+";
+			}
+			else
+			{
+				closeit();
+				return false;
+			} 
+		}		
+	}
+	else
+	{
+		if(reg_message!="")
+		{
+			document.getElementById("dwindow").style.display="none";
+			var r=confirm("确认驳回该应用的上架请求？");
+			if (r==true)
+			{
+				//alert(reg_message);
+				window.location.href="reject.php?app_id="+app_ids+"&reject_mess="+reg_message+"&time=<?php echo $this->_tpl_vars['time']; ?>
+";
+			}
+			else
+			{
+                closeit();
+				return false;
+			} 
+		}
+		else if(reg_message=="")
+		{
+			alert("未选中任何驳回原因");
+		}
+	}
+}
+/*以下是弹出页面的相关函数*/
+var dragapproved=false
+var minrestore=0  //该变量表示窗口目前的状态，0表示初始化状态，1表示最大化状态
+var initialwidth,initialheight
+//若Client浏览器为IE5.0以上版本的
+var ie5=document.all&&document.getElementById
+//若Client浏览器为NetsCape6。0版本以上的
+var ns6=document.getElementById&&!document.all
+function loadwindow(width,height)
+{
+	//if (!ie5&&!ns6)  //若不为IE或Netscpae浏览器，则使用一般的Window.open进行弹出窗口处理
+//window.open(url,"","width=width,height=height,scrollbars=1")
+	//{
+	 
+	//}
+	//else
+	//{
+		tex11 = document.getElementById("tex1");
+		tex11.style.zIndex = "1000";	
+		texrcontent1 = document.getElementById("texrcontent");
+		texrcontent1.style.zIndex = "1000";	
+		
+		var sWidth,sHeight;
+		sWidth=document.body.offsetWidth;//浏览器工作区域内页面宽度
+		sHeight=screen.height;//屏幕高度（垂直分辨率）
+		ssWidth=sWidth*0.4;
+		ssHeight=sHeight*0.2;	
+		myAlert = document.getElementById("dwindow");
+		myAlert.style.display="block";
+		myAlert.style.width=initialwidth=width+"px";
+		myAlert.style.height=initialheight=height+"px";
+		myAlert.style.left=ssWidth+"px";
+		myAlert.style.top=ns6? window.pageYOffset*1+ssHeight+"px" : iecompattest().scrollTop*1+ssHeight+"px";
+		myAlert.style.zIndex = "1000";	
+
+
+		
+		mybg = document.createElement("div");
+		mybg.setAttribute("id","mybg");
+		mybg.style.background = "#000";
+		mybg.style.width = "100%";
+		mybg.style.height = "100%";
+		mybg.style.position = "fixed";
+		mybg.style.top = "0";
+		mybg.style.left = "0";
+		mybg.style.zIndex = "500";
+		mybg.style.opacity = "0.3";
+		mybg.style.filter = "Alpha(opacity=30)";
+		document.body.appendChild(mybg);
+		//document.body.style.overflow = "hidden";
+	//}
+}
+function loadwindow2(width,height)
+{
+	//if (!ie5&&!ns6)  //若不为IE或Netscpae浏览器，则使用一般的Window.open进行弹出窗口处理
+//window.open(url,"","width=width,height=height,scrollbars=1")
+	//{
+	 
+	//}
+	//else
+	//{
+		//tex11 = document.getElementById("tex1");
+		//tex11.style.zIndex = "1000";	
+		//texrcontent1 = document.getElementById("texrcontent");
+		//texrcontent1.style.zIndex = "1000";	
+		
+		var sWidth,sHeight;
+		sWidth=document.body.offsetWidth;//浏览器工作区域内页面宽度
+		sHeight=screen.height;//屏幕高度（垂直分辨率）
+		ssWidth=sWidth*0.4;
+		ssHeight=sHeight*0.2;	
+		myAlert = document.getElementById("imei");
+		myAlert.style.display="block";
+		myAlert.style.width=initialwidth=width+"px";
+		myAlert.style.height=initialheight=height+"px";
+		myAlert.style.left=ssWidth+"px";
+		myAlert.style.top=ns6? window.pageYOffset*1+ssHeight+"px" : iecompattest().scrollTop*1+ssHeight+"px";
+		myAlert.style.zIndex = "1000";	
+
+
+		
+		mybg = document.createElement("div");
+		mybg.setAttribute("id","mybg");
+		mybg.style.background = "#000";
+		mybg.style.width = "100%";
+		mybg.style.height = "100%";
+		mybg.style.position = "fixed";
+		mybg.style.top = "0";
+		mybg.style.left = "0";
+		mybg.style.zIndex = "500";
+		mybg.style.opacity = "0.3";
+		mybg.style.filter = "Alpha(opacity=30)";
+		document.body.appendChild(mybg);
+		//document.body.style.overflow = "hidden";
+	//}
+}
+function iecompattest()
+{
+	return (!window.opera && document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
+}
+
+function drag_drop(e)
+{
+	if (ie5&&dragapproved&&event.button==1)
+	{
+		document.getElementById("dwindow").style.left=tempx+event.clientX-offsetx+"px"
+		document.getElementById("dwindow").style.top=tempy+event.clientY-offsety+"px"
+	}
+	else if (ns6&&dragapproved)
+	{
+		document.getElementById("dwindow").style.left=tempx+e.clientX-offsetx+"px"
+		document.getElementById("dwindow").style.top=tempy+e.clientY-offsety+"px"
+	}
+}
+
+function initializedrag(e)
+{
+	offsetx=ie5? event.clientX : e.clientX
+	offsety=ie5? event.clientY : e.clientY
+	document.getElementById("dwindowcontent").style.display="none" //此句代码可不要
+	tempx=parseInt(document.getElementById("dwindow").style.left)
+	tempy=parseInt(document.getElementById("dwindow").style.top)
+	dragapproved=true
+	document.getElementById("dwindow").onmousemove=drag_drop
+}
+
+function maximize()
+{
+	if (minrestore==0)
+	{
+		minrestore=1 //maximize window
+		document.getElementById("maxname").setAttribute("src","layout.png")
+		document.getElementById("dwindow").style.width=ns6? window.innerWidth-20+"px" : iecompattest().clientWidth+"px"
+		document.getElementById("dwindow").style.height=ns6? window.innerHeight-20+"px" : iecompattest().clientHeight+"px"
+	}
+	else
+	{
+		minrestore=0 //restore window
+		document.getElementById("maxname").setAttribute("src","layout.png")
+		document.getElementById("dwindow").style.width=initialwidth
+		document.getElementById("dwindow").style.height=initialheight
+	}
+	document.getElementById("dwindow").style.left=ns6? window.pageXOffset+"px" : iecompattest().scrollLeft+"px"
+	document.getElementById("dwindow").style.top=ns6? window.pageYOffset+"px" : iecompattest().scrollTop+"px"
+}
+
+function closeit()
+{
+	
+	var ss;
+	var temps=new Array();
+	for(ss=1;ss<=<?php echo $this->_tpl_vars['ii']; ?>
+;ss++)
+	{
+		temps[ss] = document.getElementById("c"+ss);
+	}
+	for(m=1; m<=<?php echo $this->_tpl_vars['ii']; ?>
+; m++)
+	{
+		temps[m].checked = false;
+	}
+	document.getElementById("textarea1").value="";
+	document.getElementById("textarea1").style.display="none";
+	document.getElementById("texrcontent").style.display="none";
+	document.getElementById("dwindow").style.display="none";
+	//document.getElementById("tex1")style.zIndex = "1000";	
+	//document.getElementById("texrcontent").style.zIndex = "1000";	
+	mybg.style.display = "none";
+}
+
+function stopdrag()
+{
+	dragapproved=false;
+	document.getElementById("dwindow").onmousemove=null;
+	document.getElementById("dwindowcontent").style.display=""; //extra
+}
+$().ready(function(){
+	$("#imeitext").autocomplete("search.php", {
+        width: 240,
+		highlight: false,
+		selectFirst: false
+	});
+});
+</script>
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links"><?php echo $this->_tpl_vars['username']; ?>
+,您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			<?php echo $this->_tpl_vars['sidebar']; ?>
+
+
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box" ><!-- Start Content Box -->
+				
+			<div class="content-box-header">
+					
+					<h3>新内容审核</h3>
+	
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				<div class="content-box-header3" >	
+				<br />		
+				<form name="app" id="app" method="post" action="app_audit.php" >
+					<p>		
+							 &nbsp;<b>选择上传时间</b>
+							<select name="time" id="time">
+							<option value="1">当天</option>
+							<option value="2">最近两天</option>
+							<option value="3">最近一周</option>
+							<option value="4">不限</option>
+							</select>
+							<input type="hidden" name="submit_test" value="yes" />
+							<input type="hidden" name="currentpage" id="currentpage" value="1" />
+							<input type="hidden" name="sumpage" id="sumpage" value="1" />
+							<input type="button" class="button" value="查询" onClick="javascript:confirms();">
+					</p>
+				</form>
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header1 -->
+				<div class="content-box-content">
+					
+					<?php if ($this->_tpl_vars['time'] != null): ?>
+					<script language="javascript">
+						document.getElementById("time").value=<?php echo $this->_tpl_vars['time']; ?>
+;
+					</script>
+					<?php endif; ?>
+					<?php echo $this->_tpl_vars['hidediv']; ?>
+
+					<?php if ($this->_tpl_vars['tablelist'] != null): ?>
+				<div id="imei" style="position:absolute;background-color: #EBEBEB;cursor:hand;left:600px;top:250px;height:150px;width:300px;display:none; margin:auto;" onMousedown="initializedrag(event)" onMouseup="stopdrag()" onSelectStart="return false" src="javascript:false" >
+					<div style="position:absolute;left:30px;top:10px;">
+						<span id="imei_test"><font size="2" ><b>请输入IMEI号:</b></font></span>
+					</div>
+					<div style="position:absolute;left:35px;top:50px;">
+						<input name="imeitext" id="imeitext" type="text" style = "width:235px;"/><br><br>
+						<font size="2">输入15位IMEI，一个IMEI对应一台手机</font>
+					</div>
+					<div style="position:absolute;left:70px;top:120px;">
+						<input id="imeibutton" type="button" onClick="javascript:imei_sub()" value="确定"/>
+					</div>
+					<div style="position:absolute;left:180px;top:120px;">
+						<input id="imeibutton2" type="button" onClick="javascript:hidDiv()" value="取消" />
+					</div>
+				</div>
+					 <div class="tab-content default-tab" id="tab1" >
+						<table name="app_list" id="app_list" border=1 width="100%">
+							<thead>
+								<tr>
+									<th width="86"><div align="center">内容ID</div></th>
+									<th width="89"><div align="center">内容名称</div></th>
+									<th width="178"><div align="center">上传时间</div></th>
+									 <th width="111"><div align="center">开发者</div></th>
+									 <th colspan="3" align="center"><div align="center">操作</div></th>
+							  </tr>
+							 </thead>
+							 <tfoot>
+								<tr>
+									<td colspan="11">
+										<div class="pagination" >
+											<span>共<?php echo $this->_tpl_vars['out_app_sum']; ?>
+条记录</span>
+											<?php if ($this->_tpl_vars['currentpage'] == 1): ?>
+											<span>首页</span>
+											<?php endif; ?>
+											<?php if ($this->_tpl_vars['currentpage'] > 1): ?>
+											<span><a href="<?php echo $this->_tpl_vars['prepage']; ?>
+">上一页</a></span>
+											<?php endif; ?>
+											<a>/</a>
+											<?php if ($this->_tpl_vars['currentpage'] == $this->_tpl_vars['sumpage']): ?>
+											<span>末页</span>
+											<?php endif; ?>
+											<?php if ($this->_tpl_vars['currentpage'] >= 1): ?>
+												<?php if ($this->_tpl_vars['currentpage'] < $this->_tpl_vars['sumpage']): ?>
+												<span><a href="<?php echo $this->_tpl_vars['nextpage']; ?>
+">下一页</a></span>
+												<?php endif; ?>
+											<?php endif; ?>
+											<span>转到第<input name = "pagejump" id = "pagejump" style="width:40px;">页</span>
+											<span><input type="button" value="跳转" class=="button" onClick="javascript:formsub_jump();"></span>
+											<?php if ($this->_tpl_vars['sumpage'] == 0): ?>
+											<span>0/<?php echo $this->_tpl_vars['sumpage']; ?>
+页</span>
+											<?php else: ?>
+											<span><?php echo $this->_tpl_vars['currentpage']; ?>
+/<?php echo $this->_tpl_vars['sumpage']; ?>
+页</span>
+											<?php endif; ?>
+										</div>
+									<div class="clear"></div>
+									</td>
+								</tr>
+							 </tfoot>
+							 <tbody  align="center" id="for_all_buttons">
+								<?php echo $this->_tpl_vars['tablelist']; ?>
+
+							 </tbody>
+						</table>
+					</div>	
+					<?php endif; ?>
+					
+				</div> <!-- End .content-box-content -->
+			
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+			<?php echo $this->_tpl_vars['footer']; ?>
+
+			
+		</div> <!-- End #main-content -->
+		
+	</div>

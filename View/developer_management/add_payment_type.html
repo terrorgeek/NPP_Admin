@@ -1,0 +1,644 @@
+{#$header#}
+<script type="text/javascript" src="../../View/resources/scripts/ajax.js"></script>
+<script type="text/javascript" src="../../View/resources/scripts/addOption.js"></script>
+<script type="text/javascript" src="../../View/js/jquery.js"></script>
+<script language="javascript">
+window.onload=Auto;
+//验证表单能否提交的变量
+var flag=true;
+var flag_repeat=true;
+function Auto()
+{
+	window.document.getElementById("menu4").style.display="block";
+	//document.getElementById("charge_search").submit();
+}
+
+function go_back()
+{
+	window.location.href="payment_channel.php";
+}
+function trim(str){
+	return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+//检查是否有相同的支付类型名称
+function check_payment_name()
+{
+	var payment_name=document.getElementById("payment_name").value;
+	var warning_repeat=document.getElementById("payment_name_repeat");
+	var warning_payment_name = document.getElementById("warning_payment_name");
+	
+	if(payment_name.match(/^[\u4E00-\u9FA5a-zA-Z0-9_\-]+$/)&&payment_name.length<11&&payment_name.length>1&&payment_name!="")
+	{
+		warning_payment_name.style.display="none";
+		$.ajax({
+						data:"payment_name_repeat="+payment_name,
+						url:"check_payment.php",
+		                type:"post",
+		                dataType:"text",
+		                success:function(data)
+		                {
+		                	data=trim(data);
+			                if(data=="yes")
+			                {
+			                	warning_repeat.style.display="";
+			                	flag_repeat=false;
+			                }
+							else {
+								warning_repeat.style.display="none";
+			                	flag_repeat=true;
+							}
+		                }
+					});
+	}
+	else
+	{
+		flag=false;
+		warning_payment_name.style.display="";
+		warning_repeat.style.display="none";
+	}
+}
+function check_min_amount()
+{
+	var min_amount=document.getElementById("min_amount").value;
+	var warning_min=document.getElementById("warning_min_amount");
+//	if(!min_amount.match(/^(([1-9]\d*(\.\d?[0-9])?)|(0\.[1-9][0-9])|(0\.[0][1-9]))$/)||min_amount.indexOf("-")!=-1)
+    if(min_amount.indexOf(".")!=-1) {
+		if(min_amount.match(/^[1-9]{1}[0-9]*.[0-9]{2}$/) || min_amount.match(/^[0-9]{1}.[0-9]{2}$/)) {
+			flag=true;
+			warning_min.style.display="none";
+		}
+		else {
+			flag=false;
+			warning_min.style.display="block";
+		}
+	
+	}
+	else {
+		flag=false;
+		warning_min.style.display="block";
+	}
+}
+function check_max_amount()
+{
+	var max_amount=document.getElementById("max_amount").value;
+	var warning_max=document.getElementById("warning_max_amount");
+
+    if(max_amount.indexOf(".")!=-1) {
+		if(max_amount.match(/^[1-9]{1}[0-9]*.[0-9]{2}$/) || max_amount.match(/^[0-9]{1}.[0-9]{2}$/)) {
+			flag=true;
+			warning_max.style.display="none";
+		}
+		else {
+			flag=false;
+			warning_max.style.display="block";
+		}
+	
+	}
+	else {
+		flag=false;
+		warning_max.style.display="block";
+	}
+}
+function check_payment_type()
+{
+	var payment_type=document.getElementById("payment_type");
+	var sel_payment_type = payment_type.options[payment_type.options.selectedIndex];
+	var warning_payment_type=document.getElementById("warning_payment_type");
+    if(sel_payment_type.value=="default")
+    {
+    	flag=false;
+    	warning_payment_type.style.display="block";
+    }
+	else
+	{
+		flag=true;
+		warning_payment_type.style.display="none";
+	}
+}
+function check_payment_source()
+{
+	var payment_source=document.getElementById("payment_source");
+	var sel_payment_source = payment_source.options[payment_source.options.selectedIndex];
+	var warning_payment_source=document.getElementById("warning_payment_source");
+	if(sel_payment_source.value=="default")
+	{
+		flag=false;
+		warning_payment_source.style.display="block";
+	}
+	else
+	{
+		flag=true;
+		warning_payment_source.style.display="none";
+	}
+}
+//验证支付网关代收
+function check_key()
+{
+	var key=document.getElementById("key").value;
+	var warning_key=document.getElementById("warning_key");
+	if(key>0&&key<100&& (key.match(/^[1-9]{1}[0-9]*.[0-9]{2}$/) || key.match(/^[0-9]{1}.[0-9]{2}$/)) )
+	{
+		flag=true;
+		warning_key.style.display="none";
+	}
+	else
+	{
+		flag=false;
+		warning_key.style.display="block";
+	}
+}
+//验证坏账率
+function check_account()
+{
+	var account=document.getElementById("account").value;
+	var warning_account=document.getElementById("warning_account");
+	if(account<100&&account>0&& (account.match(/^[1-9]{1}[0-9]*.[0-9]{2}$/) || account.match(/^[0-9]{1}.[0-9]{2}$/)) )
+	{
+		flag=true;
+		warning_account.style.display="none";
+	}
+	else
+	{
+		flag=false;
+		warning_account.style.display="block";
+	}
+}
+function check_nokia_rate()
+{
+	var nokia_rate=document.getElementById("nokia_rate").value;
+	var warning_nokia_rate=document.getElementById("warning_nokia_rate");
+	if(nokia_rate<100&&nokia_rate>0&& (nokia_rate.match(/^[1-9]{1}[0-9]*.[0-9]{2}$/) || nokia_rate.match(/^[0-9]{1}.[0-9]{2}$/)) )
+	{
+		flag=true;
+		warning_nokia_rate.style.display="none";
+	}
+	else
+	{
+		flag=false;
+		warning_nokia_rate.style.display="block";
+	}
+}
+//验证支付去到税率
+function check_channel_rate()
+{
+	var channel_rate=document.getElementById("channel_rate").value;
+	var warning_channel_rate=document.getElementById("warning_channel_rate");
+	if(channel_rate>0&&channel_rate<100&& (channel_rate.match(/^[1-9]{1}[0-9]*.[0-9]{2}$/) || channel_rate.match(/^[0-9]{1}.[0-9]{2}$/)) )
+	{
+		flag=true;
+		warning_channel_rate.style.display="none";
+	}
+	else
+	{
+		flag=false;
+		warning_channel_rate.style.display="block";
+	}
+}
+function check_apper_rate()
+{
+	var apper_rate=document.getElementById("apper_rate").value;
+	var warning_apper_rate=document.getElementById("warning_apper_rate");
+	if(apper_rate<100&&apper_rate>0&& (apper_rate.match(/^[1-9]{1}[0-9]*.[0-9]{2}$/) || apper_rate.match(/^[0-9]{1}.[0-9]{2}$/)) )
+	{
+		flag=true;
+		warning_apper_rate.style.display="none";
+	}
+	else
+	{
+		flag=false;
+		warning_apper_rate.style.display="block";
+	}
+}
+function check_others()
+{
+	var others=document.getElementById("others").value;
+	var warning_others=document.getElementById("warning_others");
+	if(others.length>100)
+	{
+		warning_others.style.display="block";
+		flag = false;
+	}
+	else
+	{
+		warning_others.style.display="none";
+		flag = true;
+	}
+}
+
+//不同的支付类型名称其渠道，支付类型，支付来源，不能全相同,在同一应用中
+function check_all_same()
+{
+	var payment_type=document.getElementById("payment_type").options[window.document.getElementById("payment_type").selectedIndex].value;
+	var payment_source=document.getElementById("payment_source").options[window.document.getElementById("payment_source").selectedIndex].value;
+	var channel_id="{#$channel_id#}";
+	$.ajax({
+		data:"source"+payment_source+"&kind="+payment_type+"&channel="+channel_id,
+		url:"check_payment.php",
+		type:"post",
+		dataType:"text",
+		success:function(data)
+		{
+		    if(data=="exist")
+		    {
+		    	alert("在同一应用中,不同的支付类型名称其渠道,支付类型,支付来源,不能全相同!");
+		    	flag=false;
+		    	return false;
+		    }
+		    else
+		    {
+		    	flag=true;
+		    	return true;
+		    }
+	    }
+	});
+}
+//诺基亚税率、支付渠道税率及内容提供商分成比例三项的和不能大于1
+function check_total_rate()
+{
+	var nokia_rate=parseFloat(document.getElementById("nokia_rate").value);
+	var channel_rate=parseFloat(document.getElementById("channel_rate").value);
+	var apper_rate=parseFloat(document.getElementById("apper_rate").value);
+	var total_rate=nokia_rate+channel_rate+apper_rate;
+	if(total_rate>100.00)
+	{
+		flag=false;
+		alert("诺基亚税率、支付渠道税率及内容提供商分成比例三项的和不能大于100%");
+		return false;
+	}
+	else
+	{
+		flag=true;
+		return true;
+	}
+}
+function submit_form()
+{
+	check_payment_name();
+	
+	check_payment_type();
+	if(flag == false) return;
+	check_payment_name();
+	if(flag == false) return;
+	check_payment_source();
+	if(flag == false) return;
+	check_max_amount();
+	if(flag == false) return;
+	check_min_amount();
+	if(flag == false) return;
+	if(parseFloat(document.getElementById("min_amount").value)>parseFloat(document.getElementById("max_amount").value))
+	{
+		alert("最小金额不能大于最大金额!");
+		return;
+	}
+	check_key();
+	if(flag == false) return;
+	check_account();
+	if(flag == false) return;
+	check_nokia_rate();
+	if(flag == false) return;
+	check_channel_rate();
+	if(flag == false) return;
+	check_apper_rate();
+	if(flag == false) return;
+	check_all_same();
+	if(flag == false) return;
+	check_others();
+	if(flag == false) return;
+	//诺基亚税率、支付渠道税率及内容提供商分成比例三项的和不能大于1
+	// check_total_rate();
+	// if(flag==false) return;
+	if(flag==true&&flag_repeat==true)
+	{
+		if(confirm("确定添加?"))
+		{
+			var form=document.getElementById("form1");
+			form.submit();
+		}
+		else
+		{
+			return;
+		}
+		
+	}
+}
+function imei_sub() {
+	var ptype = document.getElementById("ptype").value;
+	document.getElementById("status").value== 0;
+	if(ptype!="" && ptype.length>1 && ptype.length<21 && ptype.match(/^[\u4E00-\u9FA5a-zA-Z0-9_\-]+$/))
+	{
+		addtype(ptype);
+	}
+	else
+	{
+		alert("输入不合法，请按照提示输入！");
+	}
+	if(document.getElementById("status").value=='1') {
+		document.getElementById("ptype").value = "";
+		document.getElementById("status").value==0;
+		hidDiv("imei");
+	}
+	
+	
+}
+
+function source_sub() {
+	var psource = document.getElementById("psource").value;
+	document.getElementById("status").value== 0;
+	if(psource!="" && psource.length>1 && psource.length<21 && psource.match(/^[\u4E00-\u9FA5a-zA-Z0-9_\-]+$/))
+	{
+		addsource(psource);
+	}
+	else
+	{
+		alert("输入不合法，请按照提示输入！");
+	}
+	if(document.getElementById("status").value=='1') {
+		document.getElementById("ptype").value = "";
+		document.getElementById("status").value==0;
+		hidDiv("source");
+	}
+
+}
+
+
+function hidDiv(dname){
+	var temp = document.getElementById(dname);
+		temp.style.display = "none";
+		mybg.style.display = "none";
+}
+</script>
+	
+<script>
+var dragapproved=false
+var minrestore=0  //该变量表示窗口目前的状态，0表示初始化状态，1表示最大化状态
+var initialwidth,initialheight
+//若Client浏览器为IE5.0以上版本的
+var ie5=document.all&&document.getElementById
+//若Client浏览器为NetsCape6。0版本以上的
+var ns6=document.getElementById&&!document.all
+function loadwindow(width,height,divname)
+{		
+		var sWidth,sHeight;
+		sWidth=document.body.offsetWidth;//浏览器工作区域内页面宽度
+		sHeight=screen.height;//屏幕高度（垂直分辨率）
+		ssWidth=sWidth*0.4;
+		ssHeight=sHeight*0.2;	
+		myAlert = document.getElementById(divname);
+		myAlert.style.display="block";
+		myAlert.style.width=initialwidth=width+"px";
+		myAlert.style.height=initialheight=height+"px";
+		myAlert.style.left=ssWidth+"px";
+		myAlert.style.top=ns6? window.pageYOffset*1+ssHeight+"px" : iecompattest().scrollTop*1+ssHeight+"px";
+		myAlert.style.zIndex = "1000";	
+		
+		mybg = document.createElement("div");
+		mybg.setAttribute("id","mybg");
+		mybg.style.background = "#000";
+		mybg.style.width = "100%";
+		mybg.style.height = "100%";
+		mybg.style.position = "fixed";
+		mybg.style.top = "0";
+		mybg.style.left = "0";
+		mybg.style.zIndex = "500";
+		mybg.style.opacity = "0.3";
+		mybg.style.filter = "Alpha(opacity=30)";
+		document.body.appendChild(mybg);
+		//document.body.style.overflow = "hidden";
+	//}
+}
+
+</script>
+	
+	<body>
+	<input type="hidden" value="-1" id="status" />
+	<div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+				
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>新增支付类型</h3>
+	
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					<div id="imei" style="position:absolute;background-color: #EBEBEB;cursor:hand;left:800px;top:200px;height:150px;width:300px;display:none; margin:auto;" onSelectStart="return false" src="javascript:false" >
+					<div style="position:absolute;left:0px;top:10px;">
+						<table>
+							<tr>
+								<td><input type="text" id="ptype" name="ptype"  />
+									<br>2~20个字符，仅限中英文、数字，“-”及下划线
+								</td>
+							</tr>
+							
+						</table>
+					</div>
+					<div style="position:absolute;left:100px;top:100px;"> 
+						<input id="imeibutton" class="button" type="button" onClick="javascript:imei_sub()" value="确定"/>  
+						<input class="button" type="button" id="imeibutton2" onClick="javascript:hidDiv('imei')" value="返回" />
+					</div> 
+					</div>
+					
+					<div id="source" style="position:absolute;background-color: #EBEBEB;cursor:hand;left:800px;top:200px;height:150px;width:300px;display:none; margin:auto;" onSelectStart="return false" src="javascript:false" >
+					<div style="position:absolute;left:0px;top:10px;">
+						<table>
+							<tr>
+								<td><input type="text" id="psource" name="psource"  />
+									<br>2~20个字符，仅限中英文、数字，“-”及下划线
+								</td>
+							</tr>
+							
+						</table>
+					</div>
+					<div style="position:absolute;left:100px;top:100px;"> 
+						<input id="sourcebutton" class="button" type="button" onClick="javascript:source_sub()" value="确定"/>  
+						<input class="button" type="button" id="sourcebutton2" onClick="javascript:hidDiv('source')" value="返回" />
+					</div> 
+					</div>
+					
+					<form method="post" action="insert_payment_type.php" method="post" id="form1" >
+
+					<div class="tab-content default-tab" id="tab1">
+						<table width="50%">					
+							<tr>
+								<td>支付渠道</td>
+								<td>{#$channel_name#}</td>
+								<input type="hidden" name="channel_id" id="channel_id" value="{#$channel_id#}" />
+								<input type="hidden" name="channel_name" id="channel_name" value="{#$channel_name#}" />
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;								</td>
+							</tr>
+							<tr>
+								<td>支付类型</td>
+								<td>
+									
+									<select name = "payment_type" id = "payment_type" style="width:30%;" onchange="check_payment_type()">
+										{#$payment_type_options#}
+									</select>
+									&nbsp;&nbsp;<font color="#999999">没有合适的支付类型？</font>
+									&nbsp;&nbsp;<a href="#" onclick="loadwindow(300,150,'imei')">点此添加</a><br/>
+									<font color="red" id="warning_payment_type" style="display: none">选择不能为空!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>支付类型名称</td>
+								<td>
+									<input type="text" id="payment_name" name="payment_name" onkeyup="check_payment_name()" onpaste="check_payment_name()" onchange="check_payment_name()" onblur="check_payment_name()" />
+									&nbsp;&nbsp;<font color="#999999">2~10个字符，仅限中英文、数字，“-”及下划线</font><br/>
+									<font color="red" id="warning_payment_name" style="display: none">输入不合法!</font>
+									<font color="red" id="payment_name_repeat" style="display: none">此名称已存在!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>支付来源</td>
+								<td>
+
+									<select name = "payment_source" id ="payment_source" style="width:30%;" onchange="check_payment_source()">
+										{#$payment_source_options#}
+									</select>
+									&nbsp;&nbsp;<font color="#999999">没有合适的支付来源？</font>
+									&nbsp;&nbsp;<a href="#" onclick="loadwindow(300,150,'source')">点此添加</a><br/>
+									<font color="red" id="warning_payment_source" style="display: none">选择不能为空!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>最大金额</td>
+								<td>
+									<input type="text" id="max_amount" name="max_amount" onblur="check_max_amount()" />
+									&nbsp;&nbsp;<font color="#999999">仅限数字，小数点后保留2位，例10.00</font><br/>
+									<font color="red" id="warning_max_amount" style="display: none">输入不合法!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>最小金额</td>
+								<td>
+									<input type="text" id="min_amount" name="min_amount" onblur="check_min_amount()" />
+									&nbsp;&nbsp;<font color="#999999">仅限数字，小数点后保留2位，例1.00</font><br/>
+									<font color="red" id="warning_min_amount" style="display: none">输入不合法!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>支付网关代收</td>
+								<td>
+									<input type="text" id="key" name="key"  onblur="check_key()"/>%
+									&nbsp;&nbsp;<font color="#999999">限大于0小于100的数字，小数点后保留2位</font><br/>
+									<font color="red" id="warning_key" style="display: none">输入不合法!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>支付网关坏账率</td>
+								<td>
+									<input type="text" id="account" name="account" onblur="check_account()" />%
+									&nbsp;&nbsp;<font color="#999999">限大于0小于100的数字，小数点后保留2位</font><br/>
+									<font color="red" id="warning_account" style="display: none">输入不合法!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>诺基亚税率</td>
+								<td>
+									<input type="text" id="nokia_rate" name="nokia_rate" onblur="check_nokia_rate()" />%
+									&nbsp;&nbsp;<font color="#999999">限大于0小于100的数字，小数点后保留2位</font><br/>
+									<font color="red" id="warning_nokia_rate" style="display: none">输入不合法!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>支付渠道税率</td>
+								<td>
+									<input type="text" id="channel_rate" name="channel_rate" onblur="check_channel_rate()" />%
+									&nbsp;&nbsp;<font color="#999999">限大于0小于100的数字，小数点后保留2位</font><br/>
+									<font color="red" id="warning_channel_rate" style="display: none">输入不合法!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>内容提供商分成比例</td>
+								<td>
+									<input type="text" id="apper_rate" name="apper_rate" onblur="check_apper_rate()" />%
+									&nbsp;&nbsp;<font color="#999999">限大于0小于100的数字，小数点后保留2位</font><br/>
+									<font color="red" id="warning_apper_rate" style="display: none">输入不合法!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>状态</td>
+								<td>
+
+									<select name = "status" id = "status" style="width:30%;">
+										<option value="1">启用</option>
+										<option value="0">未启用</option>
+									</select>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>其他信息</td>
+								<td>
+									<textarea id="others" name="others" value="" rows="6" onblur="check_others()" style="border-color: black;" ></textarea>
+									<br>
+									&nbsp;&nbsp;<font color="#999999">100个字符以内</font><br/><br/>
+									<font color="red" id="warning_others" style="display: none">输入不合法!</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div style="width:215;" align="left">
+										<input type="button" class="button" value="确定" onclick="submit_form()" />
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="button" class="button" value="取消" onclick="go_back()" />
+										<input type="hidden" name="submit_test" id="submit_test" value="submit_test" />
+									</div>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+						</table>
+						
+					</div> <!-- End #tab1 -->		
+					</form>			    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+			{#$footer#}
+			
+		</div> <!-- End #main-content -->
+	
+</div>

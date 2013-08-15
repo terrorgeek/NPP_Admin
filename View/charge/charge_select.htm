@@ -1,0 +1,268 @@
+{#$header#}
+<link rel="stylesheet" href="../../View/resources/css/calendar.css" />
+
+<!-- <script type="text/javascript" src="../../View/resources/scirpts/jquery-1.3.2.min.js"></script> -->
+<script type="text/javascript" src="../../View/resources/scripts/calendar.js" ></script>  
+<script type="text/javascript" src="../../View/resources/scripts/calendar-zh.js" ></script>
+<script type="text/javascript" src="../../View/resources/scripts/calendar-setup.js"></script>
+<script language="javascript">
+function confirm()
+{
+	document.getElementById("charge_search").submit();
+}	
+</script>
+<script language="javascript">
+alert("xiaolin");
+window.onload=Auto;
+function Auto()
+{
+	
+	window.document.getElementById("menu5").style.display="block";
+}
+</script>
+<script language="javascript">
+function formsub_prev()
+{
+	document.getElementById('currentpage').value=({#$currentpage#}-1);
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_next()
+{
+	document.getElementById('currentpage').value=({#$currentpage#}+1);
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_head()
+{
+	document.getElementById('currentpage').value=1;
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_last()
+{
+	document.getElementById('currentpage').value={#$sumpage#};
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_jump()
+{
+	var re=/^[0-9]*$/;
+	var pagesjump = document.getElementById('pagejump').value;	
+	if(pagesjump!=null && pagesjump.length>0)
+	{
+		if(re.test(pagesjump))
+		{
+			if(pagesjump<1||pagesjump>{#$sumpage#})
+			{
+				alert("跳转请求超出页面范围，请重新输入跳转页面");
+			}
+			else
+			{
+				document.getElementById('currentpage').value=pagesjump;
+				document.getElementById('sumpage').value={#$sumpage#};
+				document.getElementById("charge_search").submit();
+			}
+		}
+		else
+		{
+			alert("您的输入不合法!");
+		}
+	}
+	else
+	{
+		alert("请输入跳转页!");
+	}
+}
+</script>
+
+<script src="../../View/js/authority_management.js" type="text/javascript"></script>
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+				
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>订单查询</h3>
+	
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				<div class="content-box-header1">
+				<form name = "charge_search" id = "charge_search" action="charge_select.php" method="post" >
+					 <p>
+							<input type="checkbox" name="date_check" {#$date_check_pageout#} >
+							<b>日期</b>
+							<input name="stime" readonly="true" type="text" id="stime" size="10" value="{#$stime_pageout#}" maxlength="10" onclick="return showCalendar('stime', 'y-mm-dd');"/>
+							<b>到</b>
+							<input name="etime" readonly="true" type="text" id="etime"  size="10" value="{#$etime_pageout#}" maxlength="10" onclick="return showCalendar('etime', 'y-mm-dd');"/>												
+						<input type="checkbox" name="charge_status_check" {#$charge_status_check_pageout#}>
+							<b>订单状态</b>
+							<select name = "charge_status" id = "charge_status">
+							{#$charge_status_pageout#}
+							</select>
+							
+							<input type="checkbox" name="charge_num_check" {#$charge_num_check_pageout#}>
+							<b>订单号</b>
+							<input name="charge_num" id="charge_num" style="width:167px;" value="{#$charge_num_pageout#}">
+							
+							<!--<input type="checkbox" name="pay_kind_check" {#$pay_kind_check_pageout#}>
+							<b>支付方式</b>
+							<select name = "pay_kind" id = "pay_kind">
+							{#$pay_kind_pageout#}
+							</select>-->
+					</p>
+					<p>
+							<input type="checkbox" name="channel_type_check" {#$channel_type_check#} value="on" />
+							<b>支付渠道</b>
+							<select name="channel" id="channel">
+								<option selected="true" value="default">------请选择------</option>
+								{#$out_select_payment_channel#}
+							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							
+							<input type="checkbox" name="payment_type_check" {#$payment_type_check#} value="on" />
+							<b>支付类型</b>
+							<select name="payment_type" id="payment_type">
+								<option selected="true" value="default">------请选择------</option>
+								{#$out_select_payment_type#}
+							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							
+							<input type="checkbox" name="source_check" {#$source_check#} value="on" />
+							<b>支付来源</b>
+							<select name="source" id="source">
+								<option selected="true" value="default">------请选择------</option>
+								{#$out_select_payment_source#}
+							</select>
+					</p>
+					<p>	
+							<input type="checkbox" name="phone_check" {#$phone_check_pageout#}>
+							<b>手机号</b>
+							<input name="phone" id = "phone" value="{#$phone_pageout#}" >
+							
+							<input type="checkbox" name="cp_id_check" {#$cp_id_check_pageout#}>
+							<b>开发者ID</b>
+							<input name="cp_id" id="cp_id" style="width:187px;" value="{#$cp_id_pageout#}">
+							
+							<input type="checkbox" name="app_id_check" {#$app_id_check_pageout#}>
+							<b>内容ID</b>
+							<input name="app_id" id="app_id" value="{#$app_id_pageout#}">
+							<!--<input type="checkbox" name="app_type_check" {#$app_type_check_pageout#}>
+							<b>产品类别</b>
+							<select name = "app_type" id = "app_type">
+							{#$app_type_pageout#}
+							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+							<!--<input type="checkbox" name="mobile_type_check" {#$mobile_type_check_pageout#}>
+							<b>手机型号</b>
+							<select name = "mobile_type" id = "mobile_type">
+							{#$mobile_type_pageout#}
+							</select>-->
+							<input type="hidden" name="submit_test" value="yes" />
+							<input type="hidden" name="currentpage" id="currentpage" value="1" />
+							<input type="hidden" name="sumpage" id="sumpage" value="" />
+							<span><input type="button" class="button" onClick="javascript:confirm();" value="查询" /></span>	
+					</p>
+				</form>
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header1 -->
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->						
+						{#if $outpagelist ne null#}
+						<table>					
+							<thead>
+								<tr>							      
+									<th>日期</th>
+									<th>订单号</th>
+									<th>手机号</th>
+									<!--<th>机型</th>-->
+									<th>内容ID</th>
+									<th>内容名称</th>
+									<th>开发者ID</th>
+									<th>支付渠道</th>
+									<th>支付来源</th>
+									<th>支付类型</th>
+									<th>订单金额（￥:元）</th>
+									<th>订单状态</th>
+									
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<td colspan="11">
+										<div class="pagination" >
+											<span>共{#$out_search_sum#}条记录&nbsp;&nbsp;总金额{#$out_search_fee/100#}元&nbsp;&nbsp;</span>
+											{#if $currentpage eq 1#}
+											<span>首页</span>
+											{#/if#}
+											{#if $currentpage > 1#}
+											<span><a href="javascript:formsub_prev();">上一页</a></span>
+											{#/if#}
+											<a>/</a>
+											{#if $currentpage eq $sumpage#}
+											<span>末页</span>
+											{#/if#}
+											{#if $currentpage >= 1 #}
+												{#if $currentpage < $sumpage #}
+												<span><a href="javascript:formsub_next();">下一页</a></span>
+												{#/if#}
+											{#/if#}
+											<span>转到第<input name = "pagejump" id = "pagejump" style="width:40px;">页</span>
+											<span><input type="button" value="跳转" class=="button" onClick="javascript:formsub_jump();"></span>
+											{#if $sumpage eq 0#}
+											<span>0/{#$sumpage#}页</span>
+											{#else#}
+											<span>{#$currentpage#}/{#$sumpage#}页</span>
+											{#/if#}
+										</div>
+									<div class="clear"></div>
+									</td>
+								</tr>
+							</tfoot>
+							<tbody>
+						{#/if#}	
+						{#$outpagelist#}		
+						{#if $outpagelist ne null#}
+							</tbody>
+						</table>
+						{#/if#}
+						
+					</div> <!-- End #tab1 -->					    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+			{#$footer#}
+			
+		</div> <!-- End #main-content -->
+		
+	</div>

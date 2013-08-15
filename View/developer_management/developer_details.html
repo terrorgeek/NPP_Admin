@@ -1,0 +1,195 @@
+{#$header#}
+<script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu4").style.display="block";
+}
+
+function pass1(cp_id)
+{
+	submit_time = "{#$submit_time#}";
+	currentpage1 = "{#$currentpage1#}";
+	var r=confirm("确认该开发者通过审核？");
+	if (r==true)
+	{
+		window.location.href="pass.php?cp_id="+cp_id+"&submit_time="+submit_time+"&currentpage1="+currentpage1;	
+	}
+	else
+	{
+		//return false;
+	} 
+}
+
+function reject1(cp_id)
+{
+	submit_time = "{#$submit_time#}";
+	currentpage1 = "{#$currentpage1#}";
+	var r=confirm("确人驳回该开发者？");
+	if(r==true)
+	{
+		window.location.href="reject.php?cp_id="+cp_id+"&submit_time="+submit_time+"&currentpage1="+currentpage1;
+	}
+	else
+	{
+		//return false;
+	}
+}
+
+function back1()
+{
+    var cp_id="{#$cp_id#}";
+	remember_data="remember_data";
+	cp_id_search = "{#$cp_id_search#}";
+	var submit_test2="submit_test2";
+	cp_name = "{#$cp_name1#}";
+	var developer_name_check="{#$developer_name_check#}";
+	var developer_id_check="{#$developer_id_check#}";
+	currentpage2 = "{#$currentpage2#}";
+	developer_id = "{#$developer_id#}";
+	developer_name = "{#$developer_name#}";
+	developer_type = "{#$developer_type#}";
+	developer_type_check = "{#$developer_type_check#}";
+	window.location.href="developer_check.php?div2=0&remember_data="+remember_data+"&cp_id_search="+cp_id_search+"&cp_name="+cp_name+"&currentpage2="+currentpage2+"&developer_id="+developer_id+"&developer_name="+developer_name+"&developer_type="+developer_type+"&developer_type_check="+developer_type_check+"&submit_test2="+submit_test2+"&developer_name_check="+developer_name_check+"&cp_id="+cp_id+"&developer_id_check="+developer_id_check;
+}
+function back()
+{
+	var flag=true;
+	if(flag==true)
+	{
+		history.back(-1);
+		flag=false;
+	}
+}
+</script>
+
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+			
+			
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>开发者详情</h3>					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->				
+				<div class="content-box-content">
+					
+						<div class="tab-content default-tab" id="tab1">
+							
+						    <div><form name="input" action="developer_check.php" method="post">
+							
+							<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+								
+							<p>
+									<label>开发者类型：{#$cp_class#}</label>
+								
+								</p>
+								
+								<p>
+									<label>开发者名称：</label>
+									<input class="text-input small-input datepicker" type="text" id="cp_name" name="cp_name" disabled = "disabled" value="{#$cp_name#}"/><!-- <span class="input-notification error png_bg">该用户已经存在</span>-->
+								</p>
+								
+								<p>
+									<label>邮箱:</label>
+									<input class="text-input small-input" type="text" id="cp_email" name="cp_email" disabled = "disabled" value="{#$cp_email#}" /><!--<span class="input-notification error png_bg">邮箱格式错误</span>-->
+								</p>
+								
+								{#if $cp_enterprise ne null#}
+								<p>
+									<label>企业全称：</label>
+									<input class="text-input small-input datepicker" type="text" id="cp_enterprise" name="cp_enterprise" disabled = "disabled" value="{#$cp_enterprise#}"/>
+								</p>
+								{#/if#}
+								
+								<p>
+									<label>所在地区：</label>    
+								    <input class="text-input small-input" type="text" id="cp_area" name="cp_area" disabled = "disabled" value="{#$address_state#}-{#$address_city#}" />
+								</p> 
+								
+								<p>
+									<label>地址:</label>
+									<input class="text-input small-input" type="text" id="cp_address" name="cp_address" disabled = "disabled" value="{#$cp_address#}" /><!--<span class="input-notification error png_bg">邮箱格式错误</span>-->
+								</p>
+								
+								<p>
+									<label>邮编:</label>
+									<input class="text-input small-input" type="text" id="cp_postcode" name="cp_postcode" disabled = "disabled" value="{#$cp_postcode#}" /><!--<span class="input-notification error png_bg">邮箱格式错误</span>-->
+								</p>
+								
+								<p>
+									<label>网址:</label>
+									<input class="text-input small-input" type="text" id="cp_website" name="cp_website" disabled = "disabled" value="{#$cp_website#}" /><!--<span class="input-notification error png_bg">邮箱格式错误</span>-->
+								</p>
+								
+								<p>
+									<label>联系人:</label>
+									<input class="text-input small-input" type="text" id="cp_realname" name="cp_realname" disabled = "disabled" value="{#$cp_realname#}" /><!--<span class="input-notification error png_bg">邮箱格式错误</span>-->
+								</p>
+								
+								<p>
+									<label>联系人电话:</label>
+									<input class="text-input small-input" type="text" id="contact" name="contact" disabled = "disabled" value="{#$phone#}" /><!--<span class="input-notification error png_bg">邮箱格式错误</span>-->
+								</p>
+								
+					            {#if $flag eq null#}
+								<p>
+									<input class="button" type="button" value="审核通过" onClick="pass1('{#$cp_id#}');"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="button" type="button" value="驳回" onClick="reject1('{#$cp_id#}');" />
+								</p>
+								{#else#}
+								<p>
+									<input class="button" type="button" value="返回" onClick="javascript:back1();" />
+								</p>
+								{#/if#}
+							</fieldset>
+							</form>
+							<div class="clear"></div> <!--End .clear -->
+						
+						</div>
+						
+					</div> <!-- End #tab2 -->       
+					      
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+		{#$footer#}
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>

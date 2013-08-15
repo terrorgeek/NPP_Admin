@@ -1,0 +1,268 @@
+{#$header#}
+<script type="text/javascript" src="../../View/resources/scripts/ajax.js"></script>
+<script type="text/javascript" src="../../View/resources/scripts/addOption.js"></script>
+<script type="text/javascript" src="../../View/js/jquery.js"></script>
+<script language="javascript">
+var flag_channel = true;
+var flag_account = true;
+var flag_key = true;
+var flag = true;
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu4").style.display="block";
+	//document.getElementById("charge_search").submit();
+}
+
+function go_back()
+{
+	window.location.href="payment_channel.php";
+}
+
+function submit_form()
+{
+	
+	var channel_name=document.getElementById("channel_name").value;
+	var account=document.getElementById("account").value;
+	var key_pattern=document.getElementById("key").value;
+	var others=document.getElementById("others").value;
+	flag = true;
+	if(!( channel_name.length>0 && channel_name.length<11 && channel_name.match(/^[\u4E00-\u9FA5a-zA-Z0-9]+$/) ) ) {
+	
+		document.getElementById("channel_name_div").innerHTML = "<font color='red'>渠道名称输入不合法!</font>";
+		flag = false;
+	}
+	if(!( account.length>0 && account.length<11 && account.match(/^[\u4E00-\u9FA5a-zA-Z0-9]+$/) ) ) {
+	
+		document.getElementById("account_div").innerHTML = "<font color='red'>内部名称输入不合法!</font>";
+		flag = false;
+	}
+	if(!( key_pattern.length>0 && key_pattern.length<50 && key_pattern.match(/^[a-zA-Z0-9]+$/) ) ) {
+	
+		document.getElementById("key_div").innerHTML = "<font color='red'>加密方式输入不合法!</font>";
+		flag = false;
+	}
+	if(others.length > 100) {
+		alert("其他信息不能超过100个字符！");
+		flag = false;
+	}
+	
+	var form=document.getElementById("form1");
+	if(flag == true && flag_channel == true && flag_account == true && flag_key == true) {
+		if(confirm("确定添加?"))
+	    {
+		
+	    }
+	    else
+	    {
+		    return;
+	    }
+		form.submit();
+	}
+	
+	
+	
+
+}
+function trim(str){
+	return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+function check_repeat_channel_name()
+{
+	var channel_name=document.getElementById("channel_name").value;
+	if(!( channel_name.length>0 && channel_name.length<11 && channel_name.match(/^[\u4E00-\u9FA5a-zA-Z0-9]+$/) ) ) {
+	
+		document.getElementById("channel_name_div").innerHTML = "<font color='red'>渠道名称输入不合法!</font>";
+		flag_channel = false;
+	}else {
+					$.ajax({
+						data:"channel_name_repeat="+channel_name,
+						url:"check_payment.php",
+		                type:"post",
+		                dataType:"text",
+		                success:function(data)
+		                {
+		                	data=trim(data)
+			                if(data=="yes")
+			                {
+			                	document.getElementById("channel_name_div").innerHTML="<font color='red'>支付渠道已存在!</font>";
+			                	flag_channel = false;
+			                }
+							else 
+							{
+								document.getElementById("channel_name_div").innerHTML="";
+								flag_channel = true;
+							}
+		                }
+					});
+		}
+}
+function check_repeat_account()
+{
+	var account=document.getElementById("account").value;
+	if(!( account.length>0 && account.length<11 && account.match(/^[\u4E00-\u9FA5a-zA-Z0-9]+$/) ) ) {
+	
+		document.getElementById("account_div").innerHTML = "<font color='red'>内部名称输入不合法!</font>";
+		flag = false;
+	}else {
+					$.ajax({
+						data:"account_repeat="+account,
+						url:"check_payment.php",
+		                type:"post",
+		                dataType:"text",
+		                success:function(data)
+		                {
+		                	data=trim(data);
+			                if(data=="yes")
+			                {
+			                	document.getElementById("account_div").innerHTML="<font color='red'>内部名称已存在!</font>";
+			                	flag_account = false;
+			                }
+							else
+							{
+								document.getElementById("account_div").innerHTML="";
+								flag_account = true;
+							}
+		                }
+					});	
+		}
+}
+
+function check_repeat_key()
+{
+	var key=document.getElementById("key").value;
+	if(!( key.length>0 && key.length<50 && key.match(/^[a-zA-Z0-9]+$/) ) ) {
+	
+		document.getElementById("key_div").innerHTML = "<font color='red'>加密方式输入不合法!</font>";
+		flag = false;
+	} else {
+					$.ajax({
+						data:"key_repeat="+key,
+						url:"check_payment.php",
+		                type:"post",
+		                dataType:"text",
+		                success:function(data)
+		                {
+		                	 data=trim(data);
+			                if(data=="yes")
+			                {
+			                	document.getElementById("key_div").innerHTML="<font color='red'>加密方式已存在!</font>";
+			                	flag_key = false;
+			                }
+							else
+							{
+								document.getElementById("key_div").innerHTML="";
+								flag_key = true;
+							}
+		                }
+					});	
+		}
+}
+</script>	
+	
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+				
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>新增支付渠道</h3>
+	
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1">
+						<form action="add_payment_channel.php" method="post" id="form1">
+						<table width="50%">					
+							<tr>
+								<td>支付渠道名称</td>
+								<td>
+									<input type="text" id="channel_name" name="channel_name" onblur="check_repeat_channel_name()" />
+									&nbsp;&nbsp;<font color="#999999">1~10个字符，仅限中英文和数字</font>
+									<br><div id="channel_name_div"></div>
+ 								</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;								
+								</td>
+							</tr>
+							<tr>
+								<td>内部名称</td>
+								<td>
+									<input type="text" id="account" name="account" onblur="check_repeat_account()" />
+									&nbsp;&nbsp;<font color="#999999">1~10个字符，仅限中英文和数字</font>
+									<br><div id="account_div"></div>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>加密方式</td>
+								<td>
+									<input type="text" id="key" name="key" onblur="check_repeat_key()"/>
+									&nbsp;&nbsp;<font color="#999999">50个字符之内，仅限英文和数字</font>
+									<br><div id="key_div"></div>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td>其他信息</td>
+								<td>
+									<textarea id="others" name="others" value="" rows="6" style="border-color: black;" ></textarea>
+									<br><font color="#999999">100个字符以内</font>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div style="width:215;" align="left">
+										<input type="button" class="button" value="确定" id="sure" onclick="submit_form()" />
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="button" class="button" value="取消" id="cancel" onclick="go_back()" />
+										<input type="hidden" name="submit_check" id="submit_check" value="submit_check" />
+									</div>
+								</td>
+								<td>&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+						</table>
+						</form>
+						
+					</div> <!-- End #tab1 -->					    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+			{#$footer#}
+			
+		</div> <!-- End #main-content -->
+	
+</div>

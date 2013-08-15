@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>计费类型设置</title>
+</head>
+<body>
+计费类型设置
+<table border="0">
+	<tr>
+		<th>计费类型</th>
+		<th colspan="2">操作</th>
+	</tr>
+	{#$tablelist#}
+</table>
+<input type="submit" name="test" value="新增" onclick="javascript:add_name()" >
+<script language="javascript">
+function modify_name(id,descr)
+{
+	var name=prompt("修改名称（限12个字符）",descr);
+	if (name!=null && name!="")
+    {
+		if(name.length<=10)
+		{
+			window.location.href="modify.php?type="+name+"&id="+id;
+		}
+		else
+		{
+			alert("最长为12个字符，请重新输入！");
+			return false;
+		}
+    }
+	else
+	{
+		alert("名称不能为空,请重新输入！");
+		return false;
+	}
+}
+function del_name(id)
+{
+	var r=confirm("确认删除？");
+	if (r==true)
+	{
+		window.location.href="del.php?id="+id;
+	}
+	else
+	{
+		return false;
+	}
+}
+function add_name()
+{
+	var name=prompt("输入新计费形式名称（限12个字符）","");
+	if (name!=null && name!="")
+    {
+		window.location.href="add.php?type="+name;
+    }
+	else
+	{
+		return false;
+	}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+{#$header#}
+<script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu7").style.display="block";
+}
+function c1()
+{
+	var pass=document.getElementById("loginname").value; 
+	if(pass=pass.match(/^[a-zA-Z0-9]{1,20}$/))
+	{
+		a1="1";
+		var obj;
+		obj=document.getElementById("c1"); 
+		obj.innerHTML="";
+	}else
+	{
+		a1="2";
+		var obj;
+		obj=document.getElementById("c1");
+		obj.innerHTML="<span class='smltxt'><font color='red'>输入错误！</font></span>" 
+	}
+}
+function c2()
+{
+	var pass=document.getElementById("realname").value; 
+	if(pass.length>20)
+	{
+		a2="2";
+		var obj;
+		obj=document.getElementById("c2");
+		obj.innerHTML="";
+		obj.innerHTML="<span class='smltxt'><font color='red'>输入非法,真实姓名不能大于20个字符！</font></span>";
+		return;
+	}
+	if(pass=pass.match(/^[\u4e00-\u9fa5\s_a-zA-Z0-9]{1,20}$/))
+	{
+		a2="1";
+		var obj;
+		obj=document.getElementById("c2"); 
+		obj.innerHTML="";
+	}else
+	{
+		a2="2";
+		var obj;
+		obj=document.getElementById("c2");
+		obj.innerHTML="";
+		obj.innerHTML="<span class='smltxt'><font color='red'>输入错误！</font></span>"; 
+	}
+}
+function c3()
+{
+	var pass=document.getElementById("email").value; 
+	if(pass=pass.match(/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/))
+	{
+		a3="1";
+		var obj;
+		obj=document.getElementById("c3"); 
+		obj.innerHTML="";
+	}else
+	{
+		a3="2";
+		var obj;
+		obj=document.getElementById("c3");
+		obj.innerHTML="<span class='smltxt'><font color='red'>输入错误！</font></span>" 
+	}
+}
+function check()
+{ 
+	c1();
+	c2();
+	c3();
+	if(a1=="1"&&a2=="1"&&a3=="1")
+	{
+		document.getElementById("form_table").submit();
+	}
+}
+</script>
+
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+			
+			
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>修改管理员</h3>					
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->				
+				<div class="content-box-content">
+					
+						<div class="tab-content default-tab" id="tab1">
+					
+						<form name="input" id="form_table" action="../../Controller/system_management/admin_modify.php?userid={#$out_find_info[0]#}" method="post">
+							
+							<fieldset> <!-- Set class to "column-left" or "column-right" on fieldsets to divide the form into columns -->
+								
+							<p>
+									<label>登录名：</label>
+										<input class="text-input small-input" type="text" id="loginname" name="loginname" value="{#$out_find_info[2]#}"  onblur="javascrit:c1()" /> <span id="c1"></span> <font size = "2">用于登录本系统；只限英文字母、或英文字母与数字混合，总计不超过20个字符</font>
+										<!--<span class="input-notification success png_bg">可以注册</span>--> <!-- Classes for input-notification: success, error, information, attention -->
+								</p>
+								
+								<p>
+									<label>真实姓名：</label>
+									<input class="text-input small-input datepicker" type="text" id="realname" name="realname" value="{#$out_find_info[3]#}"  onblur="javascrit:c2()" /> <span id="c2"></span><!-- <span class="input-notification error png_bg">该用户已经存在</span>-->
+								</p>
+								
+								<p>
+									<label>邮箱:</label>
+									<input class="text-input small-input" type="text" id="email" name="email" value="{#$out_find_info[4]#}" onblur="javascrit:c3()" /> <span id="c3"></span><!--<span class="input-notification error png_bg">邮箱格式错误</span>-->
+								</p>
+								
+								<p>
+									<label>选择管理员级别：</label>              
+									<select name="admin_level" class="small-input">
+										<!--<option value="1" {#if $out_find_info[5] eq 1#}selected{#/if#} >超级管理员</option>-->
+										<option value="2" {#if $out_find_info[5] eq 2#}selected{#/if#}>系统操作员</option>
+										<option value="3" {#if $out_find_info[5] eq 3#}selected{#/if#}>运营管理员</option>
+									</select> 
+								</p>
+								
+								<p>
+									<input class="button" type="button" value="确 认"  Onclick="javascript:check();"/>
+								</p>
+								
+							</fieldset>
+							
+							<div class="clear"></div><!-- End .clear -->
+							
+						</form>
+						
+					</div> <!-- End #tab2 -->       
+					      
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+		{#$footer#}
+			
+		</div> <!-- End #main-content -->
+		
+	</div></body>
+  
+
+<!-- Download From www.exet.tk-->
+</html>

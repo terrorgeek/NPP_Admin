@@ -1,0 +1,199 @@
+{#$header#}
+{#$son_select_info#}
+<link rel="stylesheet" href="../../View/resources/css/calendar.css" />
+
+<script type="text/javascript" src="../../View/resources/scirpts/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="../../View/resources/scripts/calendar.js" ></script>  
+<script type="text/javascript" src="../../View/resources/scripts/calendar-zh.js" ></script>
+<script type="text/javascript" src="../../View/resources/scripts/calendar-setup.js"></script>
+<script language="javascript">
+function confirm()
+{
+	document.getElementById("charge_search").submit();
+}	
+</script>
+<script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu7").style.display="block";
+}
+</script>
+<script language="javascript">
+		//var groupName = new Array();
+		function SelectGroup(obj)
+		{
+			var index = obj.options[obj.selectedIndex].value;
+			if(index == '全部')
+			{
+				document.getElementById("mode_detail").options.length = 0;
+				document.getElementById("mode_detail").options.add(new Option("不限", "不限"));
+			}
+
+			else
+			{
+				document.getElementById("mode_detail").options.length = 0;
+				document.getElementById("mode_detail").options.add(new Option("不限", "不限"));
+				for(i = 0; i < groupName[index].length; i++)
+				{
+					document.getElementById("mode_detail").options.add(new Option(groupName[index][i], groupName[index][i]));
+				}
+			}
+		}
+		
+		function see_log_info()
+		{
+			window.location.href="nppadmin_log_info.php";
+		}
+	</script>
+	
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+				
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box" ><!-- Start Content Box -->
+				
+				<div class="content-box-header"  >
+					
+					<h3>操作日志查询</h3>
+	
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				
+				<div class="content-box-header3" style="height:95px">
+				<br />
+				
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header1 -->
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1" > <!-- This is the target div. id must match the href of this div's tab -->						
+	
+						<table>					
+							<thead>
+								<tr>							      
+									<th width="9%"><div align="center">id</div></th>
+									<th width="9%"><div align="center">名称</div></th>
+									<th width="9%"><div align="center">channel_id</div></th>
+									<th width="9%"><div align="center">kind</div></th>
+									<th width="9%"><div align="center">support</div></th>
+									<th width="9%"><div align="center">min_amount</div></th>
+									<th width="9%"><div align="center">max_amount</div></th>
+									<th width="9%"><div align="center">status</div></th>
+									<th width="9%"><div align="center">net</div></th>
+									<th width="9%"><div align="center">net_bad_rate</div></th>
+									<th width="9%"><div align="center">nokia_rate</div></th>
+									<th width="9%"><div align="center">payment_rate</div></th>
+									<th width="9%"><div align="center">apper_rate</div></th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<td colspan="11">
+										
+									<div class="clear"></div>
+									</td>
+								</tr>
+							</tfoot>
+							<tbody>
+								{#$outpagelist#}
+							</tbody>
+						</table>
+
+						
+					</div> <!-- End #tab1 -->	
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+			{#$footer#}
+			
+		</div> <!-- End #main-content -->
+<script language="javascript">
+function formsub_prev()
+{
+	document.getElementById('currentpage').value=({#$currentpage#}-1);
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_next()
+{
+	document.getElementById('currentpage').value=({#$currentpage#}+1);
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_head()
+{
+	document.getElementById('currentpage').value=1;
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_last()
+{
+	document.getElementById('currentpage').value={#$sumpage#};
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_jump()
+{
+	var re=/^[0-9]*$/;
+	var pagesjump = document.getElementById('pagejump').value;	
+	if(pagesjump!=null && pagesjump.length>0)
+	{
+		if(re.test(pagesjump))
+		{
+			if(pagesjump<1||pagesjump>{#$sumpage#})
+			{
+				alert("跳转请求超出页面范围，请重新输入跳转页面");
+			}
+			else
+			{
+				document.getElementById('currentpage').value=pagesjump;
+				document.getElementById('sumpage').value={#$sumpage#};
+				document.getElementById("charge_search").submit();
+			}
+		}
+		else
+		{
+			alert("您的输入不合法!");
+		}
+	}
+	else
+	{
+		alert("请输入跳转页!");
+	}
+}
+</script>
+
+</div>
+</body>
+</html>

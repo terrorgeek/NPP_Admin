@@ -1,0 +1,122 @@
+{#$header#}
+
+	
+	
+	<body>
+		
+		<div id="main-content1"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1">
+					<form name="frm">
+						<table width="50%">					
+							<tr>
+								<td>支付渠道</td>
+								<td>
+									<select name = "channel_name" id = "channel_name" onChange="redirec(this.options.selectedIndex)">
+										<option selected>请选择</option>
+										<option value="1">Sina</option>
+										<option value="2">A8</option>
+									</select> 																							</td>
+							</tr>
+							<tr>
+								<td>支付类型</td>
+								<td>
+									<select name = "kind" id = "kind">
+										<option selected>请选择</option>
+									</select> 
+								</td>
+							</tr>
+							<tr>
+								<td>支付来源</td>
+								<td>
+									<select name = "support" id = "support">
+										<option selected>请选择</option>
+									</select> 
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div style="width:215;" align="center">
+										<input type="button" class="button" value="确定" />
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="button" class="button" value="取消" />
+									</div>
+								</td>
+							</tr>
+						</table>
+						
+						</form>
+					</div> <!-- End #tab1 -->					    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+
+			
+		</div> <!-- End #main-content -->
+	
+<script language="javascript">
+var select1_len = document.getElementById("channel_name").length;
+
+var select2 = new Array(select1_len);
+var select3 = new Array(select1_len);
+
+//把一级菜单都设为数组
+for (i=0; i<select1_len; i++)
+{
+	select2[i] = new Array();
+	select3[i] = new Array();
+}
+
+//定义基本选项
+select2[0][0] = new Option("请选择", " ");
+
+select2[1][0] = new Option("短信", " ");
+select2[1][1] = new Option("网银", " ");
+select2[1][2] = new Option("支付宝", " ");
+
+select2[2][0] = new Option("支付宝", " ");
+
+select3[0][0] = new Option("请选择", " ");
+
+select3[1][0] = new Option("Mobile", " ");
+
+select3[2][0] = new Option("WEB", " ");
+select3[2][1] = new Option("WAP", " ");
+
+function redirec(x)
+{
+	var temp = document.getElementById("kind");
+	temp.options.length=0;
+
+	for (i=0;i<select2[x].length;i++)
+	{
+		temp.options[i]=new Option(select2[x][i].text,select2[x][i].value);
+	}
+
+	temp.options[0].selected=true;
+	
+	var temp1 = document.getElementById("support");
+	temp1.options.length=0;
+	for (i=0;i<select3[x].length;i++)
+	{
+		temp1.options[i]=new Option(select3[x][i].text,select3[x][i].value);
+	}
+	for(i=select3[x].length; i<temp1.length; i++) {
+		temp1.options.remove(i);
+	}
+	temp1.options[0].selected=true;
+
+}
+</script>

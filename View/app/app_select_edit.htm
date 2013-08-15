@@ -1,0 +1,321 @@
+{#$header#}
+<script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu1").style.display="block";
+}
+</script>
+<!-- <script language="javascript">
+window.onload=Auto;
+function Auto()
+{
+	window.document.getElementById("menu1").style.display="block";
+	//document.getElementById("charge_search").submit();
+}
+
+</script>	 -->
+<script language="javascript">
+function formsub_prev()
+{
+	document.getElementById('currentpage').value=({#$currentpage#}-1);
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_next()
+{
+	document.getElementById('currentpage').value=({#$currentpage#}+1);
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_head()
+{
+	document.getElementById('currentpage').value=1;
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_last()
+{
+	document.getElementById('currentpage').value={#$sumpage#};
+	document.getElementById('sumpage').value={#$sumpage#};
+	document.getElementById("charge_search").submit();
+}
+function formsub_jump(url)
+{
+	
+	var re=/^[0-9]*$/;
+	var pagesjump = document.getElementById('pagejump').value;	
+	
+	if(pagesjump!=null && pagesjump.length>0)
+	{
+		if(re.test(pagesjump))
+		{
+			if(pagesjump<1||pagesjump>{#$sumpage#})
+			{
+				alert("您的输入不合法!");
+			}
+			else
+			{
+				url=url+'&currentpage='+pagesjump;
+				//alert(url);
+				window.location.href=url;
+			}
+		}
+		else
+		{
+			alert("您的输入不合法!");
+		}
+	}
+	else
+	{
+		alert("请输入跳转页!");
+	}
+}
+function confirms()
+{
+	var app_id='';
+	var app_key='';
+	var npp_cp='';
+	var app_status='';
+	var source="";
+	var payment_type="";
+	var channel="";
+	
+	var source_checkbox="";
+	var payment_type_checkbox="";
+	var channel_checkbox="";
+	
+	source=document.getElementById("source");
+	source_value=source.options[source.selectedIndex].value;
+	payment_type=document.getElementById("payment_type");
+	payment_type_value=payment_type.options[payment_type.selectedIndex].value;
+	channel=document.getElementById("channel");
+	channel_value=channel.options[channel.selectedIndex].value;
+	
+	if(document.getElementById("source_checkbox").checked==true)
+	{
+		var source_checkbox=document.getElementById("source_checkbox").value;
+		if(source_value=="default")
+		{
+			alert('请选择支付来源!');
+		    return;
+		}
+	}
+	if(document.getElementById("payment_type_checkbox").checked==true)
+	{
+		var payment_type_checkbox=document.getElementById("payment_type_checkbox").value;
+		if(payment_type_value=="default")
+		{
+			alert('请选择支付类型!');
+		    return;
+		}
+	}
+	if(document.getElementById("channel_checkbox").checked==true)
+	{
+		var channel_checkbox=document.getElementById("channel_checkbox").value;
+		if(channel_value=="default")
+		{
+			alert('请选择支付渠道!');
+		    return;
+		}
+	}
+
+	if(document.getElementById("app_id_check").checked==true)
+	{
+	    app_id=document.getElementById("app_id").value;
+		if(app_id == null || app_id == "") {
+			alert("内容ID不能为空！");
+			return;
+		}
+	}	
+	if(document.getElementById("app_key_check").checked==true)
+	{
+	    app_key=document.getElementById("app_key").value;
+		if(app_key == null || app_key == "") {
+			alert("内容关键字不能为空！");
+			return;
+		}
+	}
+	if(document.getElementById("npp_cp_check").checked==true)
+	{
+	    npp_cp=document.getElementById("npp_cp").value;
+	}
+	if(document.getElementById("app_status_check").checked==true)
+	{
+	    app_status=document.getElementById("app_status").value;
+	}
+	
+	var url='app_select_edit.php?app_id='+app_id+'&app_key='+app_key+'&npp_cp='+npp_cp+'&app_status='+app_status+'&currentpage='+{#$currentpage#}+'&number=0.29387723984'+"&source="+source_value+"&channel="+channel_value+"&payment_type="+payment_type_value+"&source_checkbox="+source_checkbox+"&payment_type_checkbox="+payment_type_checkbox+"&channel_checkbox="+channel_checkbox;
+	
+	location.href = url;
+	
+}
+//更改产品状态
+function change_status(obj,status,db_status)
+{
+	var r=confirm("确认修改此内容的状态？");
+	if (r==true)
+	{
+		var new_status = window.document.getElementById("'"+obj+"'").value;
+		window.location.href="change_status.php?app_id="+obj+"&new_status="+new_status+"&old_status="+status;
+	}
+	else
+	{
+		//document.getElementById("charge_search").submit();
+	}
+}
+</script>	
+	<body><div id="body-wrapper"> <!-- Wrapper for the radial gradient background -->
+		
+		<div id="sidebar"><div id="sidebar-wrapper"> <!-- Sidebar with logo and menu -->
+			
+			<h1 id="sidebar-title"><a href="#">Simpla Admin</a></h1>
+		  
+			<!-- Logo (221px wide) -->
+			<a href="#"><img src="../../View/resources/images/logo3.png" width="208" height="31" id="logo" /></a>
+			<!-- Sidebar Profile links -->
+			<div id="profile-links">{#$username#},您好！<br />
+				<br />
+				<a href="http://www.nokia.com.cn" title="www.nokia.com.cn">访问NOKIA主页</a> | <a href="../login/index.php" title="登出">登出</a>		  </div>        
+			
+			{#$sidebar#}
+				
+		</div></div> <!-- End #sidebar -->
+		
+		<div id="main-content"> <!-- Main Content Section with everything -->			
+			<noscript> <!-- Show a notification if the user has disabled javascript -->
+				<div class="notification error png_bg">
+					<div>
+						您的浏览器不支持javascript. 请 <a href="http://browsehappy.com/" title="Upgrade to a better browser">升级</a> 您的浏览器或者查询 <a href="http://www.google.com/support/bin/answer.py?answer=23852" title="Enable Javascript in your browser">失败原因</a> 和解决办法。
+					 <a href="http://www.exet.tk">下载浏览器</a></div>
+				</div>
+			</noscript>
+			
+			<div class="clear"></div> <!-- End .clear -->
+			
+			<div class="content-box"><!-- Start Content Box -->
+				
+				<div class="content-box-header">
+					
+					<h3>内容查询/修改</h3>
+	
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header -->
+				<div class="content-box-header3" style="height:155px">
+				<br />
+				<form name = "charge_search" id = "charge_search" action="app_select_edit.php" method="post" >
+					
+					 <p>
+					   &nbsp;<input type="checkbox" id="app_id_check" name="app_id_check" {#$app_id_check#}>
+					   <b>内容ID</b>
+					   <input name="app_id" id="app_id" value="{#$app_id#}">
+					   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					   <input type="checkbox" id="app_key_check" name="app_key_check" {#$app_key_check#}>
+						<b>内容名称关键字</b>
+						<input name="app_key" id="app_key" value="{#$app_key#}">
+					   <input type="hidden" name="submit_test" value="yes" />
+					   <input type="hidden" name="jiage_click" id="jiage_click" value="{#$jiage_click#}" />
+					   <input type="hidden" name="xiazailiang_click" id="xiazailiang_click" value="{#$xiazailiang_click#}" />
+					   <input type="hidden" name="current_click" id="current_click" value="{#$current_click#}" />
+					   <input type="hidden" name="currentpage" id="currentpage" value="1" />
+					   <input type="hidden" name="sumpage" id="sumpage" value="" />  		
+			       </p>
+			       <p>
+			       	  &nbsp;<input type="checkbox" name="channel_checkbox" id="channel_checkbox" value="on" {#$channel_checkbox#} />
+					  <b>支付渠道</b>
+					  <select name="channel" id="channel">
+					  	<option value="default" selected="true">------请选择------</option>
+						{#$out_select_payment_channel#}
+					  </select>
+					   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					   <input type="checkbox" name="payment_type_checkbox" id="payment_type_checkbox" value="on" {#$payment_type_checkbox#} />
+					  <b>支付类型</b>
+					  <select name="payment_type" id="payment_type">
+					    <option value="default" selected="true">------请选择------</option>
+						{#$out_select_payment_type#}
+					  </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					  <input type="checkbox" name="source_checkbox" id="source_checkbox" value="on" {#$source_checkbox#} />
+					  <b>支付来源</b>
+					  <select name="source" id="source">
+					  	<option value="default" selected="true">------请选择------</option>
+					  	{#$out_select_payment_source#}
+					  </select> 
+					   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				   </p>
+				    <p>
+							&nbsp;<input type="checkbox" id="npp_cp_check" name="npp_cp_check" {#$npp_cp_check#}>
+							<b>开发者</b>
+							<select name = "npp_cp" id = "npp_cp">
+							{#$cp_name_pageout#}
+							</select>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="checkbox" id="app_status_check" name="app_status_check"  {#$app_status_check#}>
+							<b>内容状态</b>
+							<select name = "app_status" id = "app_status">
+							{#$app_statuse_pageout#}
+							</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							
+							<span><input type="button" class="button" onClick="javascript:confirms();" value="查询" />
+					     </span>
+					</p>
+					
+				</form>
+				
+					<div class="clear"></div>
+					
+				</div> <!-- End .content-box-header1 -->
+				<div class="content-box-content">
+					
+					<div class="tab-content default-tab" id="tab1"> <!-- This is the target div. id must match the href of this div's tab -->						
+						{#if $checkdata ne null#}
+						<table>					
+							{#$tablelist#}
+							<tfoot>
+								<tr>
+									<td colspan="11">
+										<div class="pagination" >
+											<span>共{#$out_app_sum#}条记录</span>
+											{#if $currentpage eq 1#}
+											<span>首页</span>
+											{#/if#}
+											{#if $currentpage > 1#}
+											<span><a href="{#$prepage#}">上一页</a></span>
+											{#/if#}
+											<a>/</a>
+											{#if $currentpage eq $sumpage#}
+											<span>末页</span>
+											{#/if#}
+											{#if $currentpage >= 1 #}
+												{#if $currentpage < $sumpage #}
+												<span><a href="{#$nextpage#}">下一页</a></span>
+												{#/if#}
+											{#/if#}
+											<span>转到第<input name = "pagejump" id = "pagejump" style="width:40px;">页</span>
+											<span><input type="button" value="跳转" class=="button" onClick="javascript:formsub_jump('{#$nowpage#}');"></span>
+											{#if $sumpage eq 0#}
+											<span>0/{#$sumpage#}页</span>
+											{#else#}
+											<span>{#$currentpage#}/{#$sumpage#}页</span>
+											{#/if#}
+										</div>
+									<div class="clear"></div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+						{#/if#}
+						
+					</div> <!-- End #tab1 -->					    
+					
+				</div> <!-- End .content-box-content -->
+				
+			</div> <!-- End .content-box -->
+	
+			<!-- End Notifications -->
+			
+			{#$footer#}
+			
+		</div> <!-- End #main-content -->
+	
+</div>
